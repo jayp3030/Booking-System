@@ -1,0 +1,27 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-transform: capitalize;
+}
+
+.container{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.from{
+    padding: 1rem;
+    border: 2px solid aqua;
+    border-radius: 5px;
+}
+#loginForm{
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 1rem;
+}
+form input, form select , form button{
+    padding: .5rem 1rem;
+    margin: .5rem 0;
+}
