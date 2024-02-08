@@ -1,0 +1,30 @@
+.searchBox{
+    width: 90vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+    padding: .5rem 1rem;
+    margin:  0 auto;
+    background: #d0d0d0;
+    border-radius: 5px;
+}
+.searchBox input{
+    width: 100%;
+    padding:.5rem 1rem;
+    border: none;
+    outline: none;
+    font-size: 1.1rem;
+    background: transparent;
+}
+#loginBtn{
+    padding: .45rem 2rem;
+    background: #666;
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+#loginBtn a{
+    text-decoration: none;
+    color: #d0d0d0;
+}
