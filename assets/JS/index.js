@@ -2,39 +2,36 @@
 const places = JSON.parse(localStorage.getItem("places")) || []; // getting packages added by admin from local storage
 const userBooking = JSON.parse(localStorage.getItem("userbooking")) || []; // getting booked packages added by user from local storage
 
-const loginBtn = document.querySelector('#loginBtn');
 const packages = document.querySelector(".travelPackages");
+const loginBtn = document.querySelector('#loginBtn');
 
+function validateUser() {
+  return JSON.parse(localStorage.getItem('isLoggedIn')) === true ? true : false
+}
+// to change the button text content
 if (validateUser) {
   loginBtn.textContent = 'logout'
 }
-const places = JSON.parse(localStorage.getItem("places")) || [];
-console.log(places);
+
+// logout user
+loginBtn.addEventListener('click' , (e)=>{
+    if (e.target.textContent === 'login') {
+      location.href = '../html/login.html'
+      return
+    }
+    console.log('logging out');
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('email');
+    localStorage.removeItem('password');
+    alert('Logout successful')
+    loginBtn.textContent = 'login'
+
+})
 
 
-// reading JSOn data stored in json file
-// const url = '../data/data.json';
-// fetch(url)
-//   .then(response => {
-//     if (!response.ok) {
-//       throw new Error('Network response was not ok');
-//     }
-//     return response.json();
-//   })
-//   .then(data => {
-//     destinations = data.destinations;
-//     console.log(destinations[0]);
-//   })
-//   .catch(error => {
-//     console.error('There was a problem with the fetch operation:', error);
-//   });
-
-
-
-const packages = document.querySelector(".travelPackages");
 
 for (let place of places) {
-  console.log(place);
+
   const newPackage = document.createElement("div");
   newPackage.className = "main-newPackage";
   newPackage.id = `package`;
@@ -42,18 +39,12 @@ for (let place of places) {
   const newPackageImg = document.createElement("img");
   newPackageImg.src = "../images/goa.jpg";
   newPackage.append(newPackageImg);
-
-  const placeName = document.createElement("h2");
-
-  const placeCity = document.createElement("h3");
-  const placeCountry = document.createElement("h4");
-
   newPackage.className = "main-newPackage";
-
   newPackage.id = `package`;
   newPackage.append(newPackageImg);
-
-
+  
+  
+  const placeName = document.createElement("h2");
   placeName.textContent = place.placeName;
   newPackage.append(placeName);
 
@@ -136,7 +127,4 @@ function handleBooking(e) {
 
 }
 
-function validateUser() {
-  return JSON.parse(localStorage.getItem('isLoggedIn')) === true ? true : false
-}
 

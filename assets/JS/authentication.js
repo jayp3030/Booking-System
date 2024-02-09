@@ -20,7 +20,7 @@ registerForm?.addEventListener('submit',(event)=>{
     window.location.href="../html/login.html";
 })
 
-// verifying user or admin while login
+// user/admin login
 const loginFormData = document.getElementById("loginForm");
 loginFormData?.addEventListener('submit',(event)=>{
     event.preventDefault();
