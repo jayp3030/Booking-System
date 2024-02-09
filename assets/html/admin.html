@@ -8,8 +8,21 @@
     <link rel="stylesheet" href="../CSS/admin.css">
 </head>
 <body>
+    <nav>
+        <div class="logo">
+            <h2>T.com</h3>
+        </div>
+        <div class="right">
+            <div class="menu">
+                <a href="./index.html">Home</a>
+                <a href="./bookings.html">Bookings</a>
+            </div>
+            <div>
+                <button id="adminLoginBtn"><a href="../html/login.html">login</a></button>
+            </div>
+        </div>
+    </nav>
     <h1>Welcome Admin!</h1>
-
     <div class="formWrapper">
         <form action="" id="addPackageForm">
             <h3>Add New Destination Here</h3>
@@ -23,9 +36,10 @@
             <button id="addPackage">Add Package</button>
         </form>
     </div>
-    <div class="palces">
+    <div id="places">
         <h3>See Existing packages Here</h3>
     </div>
     <script src="../JS/admin.js"></script>
+    <script src="../JS/authentication.js"></script>
 </body>
 </html>
