@@ -2,7 +2,6 @@ const packageForm = document.querySelector("#addPackageForm");
 
 const places = JSON.parse(localStorage.getItem("places")) || [];
 
-
 packageForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -37,111 +36,86 @@ packageForm.addEventListener("submit", (e) => {
 // see existing packages here
 
 const adminPagePackages = document.querySelector(".adminPagePackages");
-let i=1;
-for (let place of places) {
-  
-  const newPackage = document.createElement("div");
-  const newPackageImg = document.createElement("img");
-  newPackageImg.src = "../images/goa.jpg";
+let i = 1;
 
-  const placeName = document.createElement("h2");
-  const placeCity = document.createElement("h3");
-  const placeCountry = document.createElement("h4");
+adminPageFunction(places);
 
-  newPackage.className = "main-newPackage";
+function adminPageFunction(payload) {
+  for (let place of payload) {
+    const newPackage = document.createElement("div");
+    const newPackageImg = document.createElement("img");
+    newPackageImg.src = "../images/goa.jpg";
 
-  newPackage.id = `package_${i}`;
-  newPackage.append(newPackageImg);
+    const placeName = document.createElement("h2");
+    const placeCity = document.createElement("h3");
+    const placeCountry = document.createElement("h4");
 
-  placeName.textContent = place.placeName;
-  newPackage.append(placeName);
-  placeCity.textContent = place.placeCity;
-  newPackage.append(placeCity);
-  placeCountry.textContent = place.placeCountry;
-  newPackage.append(placeCountry);
-  const desc = document.createElement("p");
-  desc.textContent = place.placeDescription;
-  newPackage.append(desc);
-  const highlights = document.createElement("p");
-  highlights.textContent = `${place.placeHighlights}`;
-  newPackage.append(highlights);
-  const price = document.createElement("h3");
-  price.textContent = place.packagePrice;
-  newPackage.append(price);
-  const duration = document.createElement("h4");
-  duration.textContent = place.packageDays;
-  newPackage.append(duration);
+    newPackage.className = "main-newPackage";
 
-  const deleteBtn = document.createElement('button');
-  deleteBtn.textContent="Delete Package";
-  deleteBtn.id = `deletePackageBtn${i}`
-  newPackage.append(deleteBtn);
+    newPackage.id = `package_${i}`;
+    newPackage.append(newPackageImg);
 
-  const editBtn = document.createElement('button');
-  editBtn.textContent= "Edit Package";
-  editBtn.id= 'editPackageBtn';
-  newPackage.append(editBtn);
+    placeName.textContent = place.placeName;
+    newPackage.append(placeName);
+    placeCity.textContent = place.placeCity;
+    newPackage.append(placeCity);
+    placeCountry.textContent = place.placeCountry;
+    newPackage.append(placeCountry);
+    const desc = document.createElement("p");
+    desc.textContent = place.placeDescription;
+    newPackage.append(desc);
+    const highlights = document.createElement("p");
+    highlights.textContent = `${place.placeHighlights}`;
+    newPackage.append(highlights);
+    const price = document.createElement("h3");
+    price.textContent = place.packagePrice;
+    newPackage.append(price);
+    const duration = document.createElement("h4");
+    duration.textContent = place.packageDays;
+    newPackage.append(duration);
 
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete Package";
+    deleteBtn.id = `deletePackageBtn${i}`;
+    newPackage.append(deleteBtn);
 
-  adminPagePackages.appendChild(newPackage);
-  i++;
+    const editBtn = document.createElement("button");
+    editBtn.textContent = "Edit Package";
+    editBtn.id = "editPackageBtn";
+    newPackage.append(editBtn);
+
+    adminPagePackages.appendChild(newPackage);
+    i++;
+  }
 }
+git
+document
+  .getElementsByClassName("adminPagePackages")[0]
+  .addEventListener("click", (event) => {
+    deletePackage(event);
+  });
 
-document.getElementsByClassName("adminPagePackages")[0].addEventListener("click",(event)=>{
-  
-  deletePackage(event);
-
-//   const targetPackage = event.target.parentNode;
-//   const targetCity = targetPackage.children[1].textContent
-//   const targetPlace = targetPackage.children[2].textContent
-//   const targetCountry = targetPackage.children[3].textContent
-//   const targetId=targetPackage.id;
-  
-  
-//   document.getElementById(targetId).remove();
-
-// const dataOfPackages = localStorage.getItem("places");
-
-
-// const ParsedData = JSON.parse(dataOfPackages);
-
-
-
-//  const filteredPackages=ParsedData.filter((dest,index)=>{
-// return (dest.placeCity !== targetCity && dest.placeName !== targetPlace && dest.placeCountry !== targetCountry )
-
-// })
-    
-//  console.log(filteredPackages);
-//  localStorage.setItem("places", JSON.stringify(filteredPackages));
-
-})
-
-
-function deletePackage(event){
-
+function deletePackage(event) {
   const targetPackage = event.target.parentNode;
-  const targetCity = targetPackage.children[1].textContent
-  const targetPlace = targetPackage.children[2].textContent
-  const targetCountry = targetPackage.children[3].textContent
-  const targetId=targetPackage.id;
-  
-  
+  const targetCity = targetPackage.children[1].textContent;
+  const targetPlace = targetPackage.children[2].textContent;
+  const targetCountry = targetPackage.children[3].textContent;
+  const targetId = targetPackage.id;
+
   document.getElementById(targetId).remove();
 
-const dataOfPackages = localStorage.getItem("places");
+  const dataOfPackages = localStorage.getItem("places");
 
+  const ParsedData = JSON.parse(dataOfPackages);
 
-const ParsedData = JSON.parse(dataOfPackages);
+  const filteredPackages = ParsedData.filter((dest, index) => {
+    return (
+      dest.placeCity !== targetCity &&
+      dest.placeName !== targetPlace &&
+      dest.placeCountry !== targetCountry
+    );
+  });
 
-
-
- const filteredPackages=ParsedData.filter((dest,index)=>{
-return (dest.placeCity !== targetCity && dest.placeName !== targetPlace && dest.placeCountry !== targetCountry )
-
-})
-    
- console.log(filteredPackages);
- localStorage.setItem("places", JSON.stringify(filteredPackages));
-
+  console.log(filteredPackages);
+  localStorage.setItem("places", JSON.stringify(filteredPackages));
 }

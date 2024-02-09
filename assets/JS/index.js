@@ -1,7 +1,6 @@
 const places = JSON.parse(localStorage.getItem("places")) || [];
 console.log(places);
 
-
 // reading JSOn data stored in json file
 // const url = '../data/data.json';
 // fetch(url)
@@ -19,50 +18,54 @@ console.log(places);
 //     console.error('There was a problem with the fetch operation:', error);
 //   });
 
-
-
 const packages = document.querySelector(".travelPackages");
 
-for (let place of places) {
-  console.log(place);
-  const newPackage = document.createElement("div");
-  const newPackageImg = document.createElement("img");
-  newPackageImg.src = "../images/goa.jpg";
+displayPackages(places);
 
-  const placeName = document.createElement("h2");
-  const placeCity = document.createElement("h3");
-  const placeCountry = document.createElement("h4");
+function displayPackages(payload) {
+  for (let place of payload) {
+    console.log(place);
+    const newPackage = document.createElement("div");
+    const newPackageImg = document.createElement("img");
+    newPackageImg.src = "../images/goa.jpg";
 
-  newPackage.className = "main-newPackage";
+    const placeName = document.createElement("h2");
+    const placeCity = document.createElement("h3");
+    const placeCountry = document.createElement("h4");
 
-  newPackage.id = `package`;
-  newPackage.append(newPackageImg);
+    newPackage.className = "main-newPackage";
 
-  placeName.textContent = place.placeName;
-  newPackage.append(placeName);
-  placeCity.textContent = place.placeCity;
-  newPackage.append(placeCity);
-  placeCountry.textContent = place.placeCountry;
-  newPackage.append(placeCountry);
-  const desc = document.createElement("p");
-  desc.textContent = place.placeDescription;
-  newPackage.append(desc);
-  const highlights = document.createElement("p");
-  highlights.textContent = `${place.placeHighlights}`;
-  newPackage.append(highlights);
-  const price = document.createElement("h3");
-  price.textContent = place.packagePrice;
-  newPackage.append(price);
-  const duration = document.createElement("h4");
-  duration.textContent = place.packageDays;
-  newPackage.append(duration);
+    newPackage.id = `package`;
+    newPackage.append(newPackageImg);
 
-  const bookingBtn = document.createElement("button");
-  bookingBtn.textContent = "Book Now";
+    placeName.textContent = place.placeName;
+    newPackage.append(placeName);
+    placeCity.textContent = place.placeCity;
+    newPackage.append(placeCity);
+    placeCountry.textContent = place.placeCountry;
+    newPackage.append(placeCountry);
+    const desc = document.createElement("p");
+    desc.textContent = place.placeDescription;
+    newPackage.append(desc);
+    const highlights = document.createElement("p");
+    highlights.textContent = `${place.placeHighlights}`;
+    newPackage.append(highlights);
+    const price = document.createElement("h3");
+    price.textContent = place.packagePrice;
+    newPackage.append(price);
+    const duration = document.createElement("h4");
+    duration.textContent = place.packageDays;
+    newPackage.append(duration);
 
-  newPackage.append(bookingBtn);
+    const bookingBtn = document.createElement("button");
+    bookingBtn.textContent = "Book Now";
 
-  packages.appendChild(newPackage);
+    newPackage.append(bookingBtn);
+
+    packages.appendChild(newPackage);
+  }
 }
 
 
+
+const searchBox = document.getElementById("search");
