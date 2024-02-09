@@ -209,6 +209,259 @@
       "duration": "6 days",
       "highlights": ["Gyeongbokgung Palace", "Myeongdong", "N Seoul"],
       "rating": 4.6
+    },
+    {
+      "name": "Sapporo, Japan",
+      "image": "sapporo.jpg",
+      "description": "Sapporo, the capital city of Japan's northernmost island, Hokkaido, is famous for its beer, snow festivals, and outdoor activities.",
+      "price": "$1100",
+      "duration": "5 days",
+      "highlights": ["Sapporo Snow Festival", "Odori Park", "Sapporo Beer Museum"],
+      "rating": 4.5
+    },
+    {
+      "name": "Helsinki, Finland",
+      "image": "helsinki.jpg",
+      "description": "Helsinki, the capital of Finland, is known for its cutting-edge design, vibrant cultural scene, and beautiful archipelago.",
+      "price": "$1200",
+      "duration": "4 days",
+      "highlights": ["Suomenlinna Sea Fortress", "Helsinki Cathedral", "Design District"],
+      "rating": 4.6
+    },
+    {
+      "name": "Quebec City, Canada",
+      "image": "quebeccity.jpg",
+      "description": "Quebec City, a UNESCO World Heritage site, is known for its charming cobblestone streets, historic architecture, and French-Canadian culture.",
+      "price": "$1300",
+      "duration": "4 days",
+      "highlights": ["Old Quebec", "Château Frontenac", "Montmorency Falls"],
+      "rating": 4.7
+    },
+    {
+      "name": "Zurich, Switzerland",
+      "image": "zurich.jpg",
+      "description": "Zurich, Switzerland's largest city, is known for its picturesque old town, vibrant nightlife, and high-quality of life.",
+      "price": "$1400",
+      "duration": "5 days",
+      "highlights": ["Lake Zurich", "Bahnhofstrasse", "Zurich Zoo"],
+      "rating": 4.8
+    },
+    {
+      "name": "Seville, Spain",
+      "image": "seville.jpg",
+      "description": "Seville, the capital of Andalusia, is famous for its stunning Moorish architecture, flamenco music, and vibrant festivals.",
+      "price": "$1200",
+      "duration": "4 days",
+      "highlights": ["Alcázar of Seville", "Seville Cathedral", "Plaza de España"],
+      "rating": 4.6
+    },
+    {
+      "name": "Nice, France",
+      "image": "nice.jpg",
+      "description": "Nice, located on the French Riviera, is famous for its stunning coastline, vibrant markets, and Mediterranean charm.",
+      "price": "$1300",
+      "duration": "4 days",
+      "highlights": ["Promenade des Anglais", "Old Town", "Castle Hill"],
+      "rating": 4.7
+    },
+    {
+      "name": "Bora Bora, French Polynesia",
+      "image": "borabora.jpg",
+      "description": "Bora Bora, a tropical paradise in French Polynesia, is famous for its crystal-clear waters, overwater bungalows, and stunning sunsets.",
+      "price": "$3500",
+      "duration": "7 days",
+      "highlights": ["Mount Otemanu", "Matira Beach", "Lagoonarium"],
+      "rating": 4.9
+    },
+    {
+      "name": "Krabi, Thailand",
+      "image": "krabi.jpg",
+      "description": "Krabi, located in southern Thailand, is famous for its stunning limestone cliffs, turquoise waters, and pristine beaches.",
+      "price": "$1500",
+      "duration": "6 days",
+      "highlights": ["Railay Beach", "Phi Phi Islands", "Ao Nang Beach"],
+      "rating": 4.8
+    },
+    {
+      "name": "Reykjavik, Iceland",
+      "image": "reykjavik.jpg",
+      "description": "Reykjavik, the capital of Iceland, is known for its vibrant arts scene, stunning natural landscapes, and geothermal baths.",
+      "price": "$1600",
+      "duration": "5 days",
+      "highlights": ["Hallgrimskirkja", "Blue Lagoon", "Golden Circle Tour"],
+      "rating": 4.7
+    },
+    {
+      "name": "Cusco, Peru",
+      "image": "cusco.jpg",
+      "description": "Cusco, a city in the Peruvian Andes, was once the capital of the Inca Empire and is now known for its colonial architecture and archaeological remains.",
+      "price": "$1700",
+      "duration": "5 days",
+      "highlights": ["Sacsayhuamán", "San Pedro Market", "Qorikancha"],
+      "rating": 4.8
+    },
+    {
+      "name": "Marrakech, Morocco",
+      "image": "marrakech.jpg",
+      "description": "Marrakech, the Red City, is famous for its bustling souks, vibrant street life, and stunning Islamic architecture.",
+      "price": "$1400",
+      "duration": "4 days",
+      "highlights": ["Jemaa el-Fnaa", "Majorelle Garden", "Bahia Palace"],
+      "rating": 4.6
+    },
+    {
+      "name": "Copenhagen, Denmark",
+      "image": "copenhagen.jpg",
+      "description": "Copenhagen, the capital of Denmark, is known for its colorful waterfront, historic Tivoli Gardens, and progressive culture.",
+      "price": "$1300",
+      "duration": "4 days",
+      "highlights": ["Nyhavn", "The Little Mermaid", "Rosenborg Castle"],
+      "rating": 4.7
+    },
+    {
+      "name": "Athens, Greece",
+      "image": "athens.jpg",
+      "description": "Athens, the capital of Greece, is known for its ancient landmarks, including the Acropolis, as well as its vibrant street life and Mediterranean cuisine.",
+      "price": "$1200",
+      "duration": "4 days",
+      "highlights": ["Acropolis", "Parthenon", "Plaka"],
+      "rating": 4.6
+    },
+    {
+      "name": "Dubrovnik, Croatia",
+      "image": "dubrovnik.jpg",
+      "description": "Dubrovnik, a UNESCO World Heritage site, is known for its well-preserved medieval walls, charming old town, and stunning Adriatic Sea views.",
+      "price": "$1400",
+      "duration": "4 days",
+      "highlights": ["Old Town Walls", "Stradun", "Lokrum Island"],
+      "rating": 4.7
+    },
+    {
+      "name": "Bangkok, Thailand",
+      "image": "bangkok.jpg",
+      "description": "Bangkok, the capital of Thailand, is known for its vibrant street life, ornate temples, and bustling markets.",
+      "price": "$1300",
+      "duration": "5 days",
+      "highlights": ["Grand Palace", "Wat Arun", "Chatuchak Weekend Market"],
+      "rating": 4.7
+    },
+    {
+      "name": "Venice Beach, California, USA",
+      "image": "venicebeach.jpg",
+      "description": "Venice Beach, located in Los Angeles, California, is known for its bohemian spirit, colorful boardwalk, and iconic Muscle Beach.",
+      "price": "$1500",
+      "duration": "4 days",
+      "highlights": ["Venice Boardwalk", "Abbot Kinney Boulevard", "Venice Canals"],
+      "rating": 4.5
+    },
+    {
+      "name": "Queenstown, New Zealand",
+      "image": "queenstown.jpg",
+      "description": "Queenstown, located on New Zealand's South Island, is famous for its stunning alpine scenery, adventure sports, and vibrant nightlife.",
+      "price": "$1600",
+      "duration": "6 days",
+      "highlights": ["Skyline Queenstown", "Milford Sound", "Lake Wakatipu"],
+      "rating": 4.8
+    },
+    {
+      "name": "Santorini, Greece",
+      "image": "santorini.jpg",
+      "description": "Santorini, a Greek island in the Aegean Sea, is famous for its stunning sunsets, white-washed buildings, and crystal-clear waters.",
+      "price": "$1700",
+      "duration": "5 days",
+      "highlights": ["Oia", "Fira", "Amoudi Bay"],
+      "rating": 4.8
+    },
+    {
+      "name": "Kyoto, Japan",
+      "image": "kyoto.jpg",
+      "description": "Kyoto, Japan's ancient capital, is renowned for its traditional wooden houses, temples, and serene gardens.",
+      "price": "$1800",
+      "duration": "5 days",
+      "highlights": ["Kinkaku-ji", "Fushimi Inari Shrine", "Arashiyama Bamboo Grove"],
+      "rating": 4.9
+    },
+    {
+      "name": "Budapest, Hungary",
+      "image": "budapest.jpg",
+      "description": "Budapest, the capital of Hungary, is known for its stunning architecture, thermal baths, and vibrant nightlife.",
+      "price": "$1400",
+      "duration": "4 days",
+      "highlights": ["Buda Castle", "Chain Bridge", "Fisherman's Bastion"],
+      "rating": 4.7
+    },
+    {
+      "name": "Machu Picchu, Peru",
+      "image": "machupicchu.jpg",
+      "description": "Machu Picchu, the ancient Incan city nestled high in the Andes, is one of the world's most iconic archaeological sites.",
+      "price": "$1900",
+      "duration": "5 days",
+      "highlights": ["Huayna Picchu", "Sun Gate", "Temple of the Sun"],
+      "rating": 4.9
+    },
+    {
+      "name": "The Great Barrier Reef, Australia",
+      "image": "greatbarrierreef.jpg",
+      "description": "The Great Barrier Reef, located off the coast of Queensland, Australia, is the world's largest coral reef system, known for its incredible biodiversity and vibrant marine life.",
+      "price": "$2000",
+      "duration": "7 days",
+      "highlights": ["Snorkeling", "Scuba diving", "Whitsunday Islands"],
+      "rating": 4.9
+    },
+    {
+      "name": "Banff National Park, Canada",
+      "image": "banff.jpg",
+      "description": "Banff National Park, located in the Canadian Rockies, is known for its stunning alpine scenery, turquoise lakes, and diverse wildlife.",
+      "price": "$1800",
+      "duration": "6 days",
+      "highlights": ["Lake Louise", "Moraine Lake", "Banff Gondola"],
+      "rating": 4.8
+    },
+    {
+      "name": "Cappadocia, Turkey",
+      "image": "cappadocia.jpg",
+      "description": "Cappadocia, located in central Turkey, is famous for its surreal landscape of fairy chimneys, rock formations, and hot air balloon rides.",
+      "price": "$1700",
+      "duration": "5 days",
+      "highlights": ["Hot air balloon ride", "Göreme Open Air Museum", "Uçhisar Castle"],
+      "rating": 4.7
+    },
+    {
+      "name": "Rotorua, New Zealand",
+      "image": "rotorua.jpg",
+      "description": "Rotorua, located on New Zealand's North Island, is known for its geothermal activity, Maori culture, and adventure sports.",
+      "price": "$1600",
+      "duration": "5 days",
+      "highlights": ["Te Puia", "Wai-O-Tapu Thermal Wonderland", "Polynesian Spa"],
+      "rating": 4.6
+    },
+    {
+      "name": "The Maldives",
+      "image": "maldives.jpg",
+      "description": "The Maldives, a tropical paradise in the Indian Ocean, is famous for its overwater bungalows, pristine beaches, and vibrant coral reefs.",
+      "price": "$2500",
+      "duration": "7 days",
+      "highlights": ["Snorkeling", "Island hopping", "Male Fish Market"],
+      "rating": 4.9
+    },
+    {
+      "name": "Patagonia, Argentina",
+      "image": "patagonia.jpg",
+      "description": "Patagonia, a region shared by Argentina and Chile, is known for its stunning glaciers, jagged mountains, and remote wilderness.",
+      "price": "$2200",
+      "duration": "8 days",
+      "highlights": ["Perito Moreno Glacier", "Fitz Roy", "Torres del Paine National Park"],
+      "rating": 4.8
+    },
+    {
+      "name": "Serengeti National Park, Tanzania",
+      "image": "serengeti.jpg",
+      "description": "Serengeti National Park, located in Tanzania, is famous for its annual wildebeest migration, vast savannahs, and abundant wildlife.",
+      "price": "$2300",
+      "duration": "6 days",
+      "highlights": ["Great Migration", "Hot air balloon safari", "Maasai Village visit"],
+      "rating": 4.7
     }
   ]
 }
+

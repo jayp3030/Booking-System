@@ -1,5 +1,5 @@
+
 const registeredUser = JSON.parse(localStorage.getItem("registeredUser")) || []; 
-console.log(registeredUser);
 const registerForm = document.getElementById('loginForm');
 
 // document.getElementById("role").addEventListener("change",()=>{
