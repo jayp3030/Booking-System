@@ -1,7 +1,23 @@
-const packageForm = document.querySelector("#addPackageForm");
 
+const packageForm = document.querySelector("#addPackageForm");
+const placesDiv = document.querySelector('#places')
 const places = JSON.parse(localStorage.getItem("places")) || [];
 
+const isAdminLoggeIn = localStorage.getItem('isAdminLoggedIn');
+const adminLoginBtn = document.querySelector('#adminLoginBtn');
+
+if (isAdminLoggeIn) {
+    adminLoginBtn.textContent ='logout'
+}
+
+// logout admin
+adminLoginBtn.addEventListener('click' , ()=>{
+    if (adminLoginBtn.textContent === 'logout' ) {
+        localStorage.removeItem('isAdminLoggedIn');
+        alert('Admin Logged out..')
+        location.href = '../html/index.html'
+    }
+})
 
 packageForm.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -18,6 +34,17 @@ packageForm.addEventListener("submit", (e) => {
   // converting string of highlights to array
   const placeHighlightsArr = placeHighlights.toLowerCase().split(",");
 
+  if (!isAdminLoggeIn) {
+    alert('LogIn first to create an package')
+    return
+  }
+
+  // validating user inputs
+  if (!placeName || !placeCity || !placeCountry || !placeHighlights || !placeDescription || !packagePrice ||!packageDays) {
+    alert('Enter all details')
+    return;
+  }
+
   const package = {
     placeName: placeName,
     placeCity: placeCity,
@@ -29,6 +56,7 @@ packageForm.addEventListener("submit", (e) => {
   };
   console.log(package);
 
+  // adding package to the places array and storing it in localstorage
   places.push(package);
   localStorage.setItem("places", JSON.stringify(places));
   alert("Package added Successfully !");
@@ -87,35 +115,7 @@ for (let place of places) {
   i++;
 }
 
-document.getElementsByClassName("adminPagePackages")[0].addEventListener("click",(event)=>{
-  
-  deletePackage(event);
-
-//   const targetPackage = event.target.parentNode;
-//   const targetCity = targetPackage.children[1].textContent
-//   const targetPlace = targetPackage.children[2].textContent
-//   const targetCountry = targetPackage.children[3].textContent
-//   const targetId=targetPackage.id;
-  
-  
-//   document.getElementById(targetId).remove();
-
-// const dataOfPackages = localStorage.getItem("places");
-
-
-// const ParsedData = JSON.parse(dataOfPackages);
-
-
-
-//  const filteredPackages=ParsedData.filter((dest,index)=>{
-// return (dest.placeCity !== targetCity && dest.placeName !== targetPlace && dest.placeCountry !== targetCountry )
-
-// })
-    
-//  console.log(filteredPackages);
-//  localStorage.setItem("places", JSON.stringify(filteredPackages));
-
-})
+document.getElementsByClassName("adminPagePackages")[0].addEventListener("click",(event)=>deletePackage(event))
 
 
 function deletePackage(event){
@@ -145,3 +145,4 @@ return (dest.placeCity !== targetCity && dest.placeName !== targetPlace && dest.
  localStorage.setItem("places", JSON.stringify(filteredPackages));
 
 }
+
