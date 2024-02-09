@@ -1,0 +1,29 @@
+.formWrapper{
+    width: 100%;
+    height: fit-content;
+    margin: 1rem 0;
+}
+.formWrapper form{
+    width: 50%;
+    margin: 0 auto;
+    padding: 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+    border: 2px solid aqua;
+    border-radius: 10px;
+}
+.formWrapper form h3{
+    font-size: 1.5rem;
+}
+
+.formWrapper form input , textarea{
+    padding: .5rem 1rem;
+    border: 1px solid #333;
+    outline: none;
+}
+
+#addPackage{
+    width: 35%;
+    padding: .5rem 1rem;
+}

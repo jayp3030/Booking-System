@@ -4,18 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Page</title>
+    <link rel="stylesheet" href="../CSS/common.css">
     <link rel="stylesheet" href="../CSS/admin.css">
 </head>
 <body>
-    <div class="formWrapper">
-        <h2>Add new Destination Here</h2>
-        <form action="">
-            <input type="text" name="packageName" placeholder="Package name">
-            <input type="text" name="packageCountry" placeholder="Country">
-            <textarea name="" id="" cols="30" rows="5" placeholder="Package high"></textarea>
+    <h1>Welcome Admin!</h1>
 
+    <div class="formWrapper">
+        <form action="" id="addPackageForm">
+            <h3>Add New Destination Here</h3>
+            <input type="text" name="placeName" id="placeName" placeholder="place name">
+            <input type="text" name="placeCity" id="placeCity" placeholder="city name">
+            <input type="text" name="placeCountry" id="placeCountry" placeholder="add country">
+            <textarea id="placeHighlights" cols="30" rows="2" placeholder="place highlights"></textarea>
+            <textarea id="placeDescription" cols="30" rows="5" placeholder="place description"></textarea>
+            <input type="number" name="packagePrice" id="packagePrice" placeholder="add price">
+            <input type="text" name="packageDays" id="packageDays" placeholder="add number of days, eg.(3-5 days)">
+            <button id="addPackage">Add Package</button>
         </form>
     </div>
-    <script src="../JS/index.js"></script>
+    <div class="palces">
+        <h3>See Existing packages Here</h3>
+    </div>
+    <script src="../JS/admin.js"></script>
 </body>
 </html>
