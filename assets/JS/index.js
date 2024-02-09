@@ -1,33 +1,6 @@
-const places = [
-  {
-    placeName: "Goa",
-    placeCity: "Panji",
-    Country: "India",
-    description:"Goa, a tiny emerald on the west coast of India, with its natural Scenic beauty, abundant greenery, attractive beaches, historical temples and churches",
-    highlights: ["Eiffel Tower", "Louvre Museum", "Notre-Dame Cathedral"],
-    price: "$1000",
-    duration: "5 Days",
-  },
-  {
-    placeName: "Tokyo",
-    placeCity: "Tokyo",
-    Country: "Japan",
-    description:"Tokyo is the administrative, cultural, financial, commercial, and educational centre of Japan and the focus of an extensive urban complex that includes Kawasaki and Yokohama.",
-    highlights: ["Eiffel Tower", "Louvre Museum", "Notre-Dame Cathedral"],
-    price: "$2000",
-    duration: "10 Days",
-  },
-  {
-    placeName: "New York City",
-    placeCity: "New York City",
-    Country: "USA",
-    description:"New York City, the city that never sleeps, is a melting pot of cultures, entertainment, and world-famous attractions.",
-    highlights: ["Eiffel Tower", "Louvre Museum", "Notre-Dame Cathedral"],
-    price: "$1500",
-    duration: "8 Days",
-  },
+const places = JSON.parse(localStorage.getItem("places")) || [];
+console.log(places);
 
-];
 
 // reading JSOn data stored in json file
 // const url = '../data/data.json';
@@ -46,11 +19,12 @@ const places = [
 //     console.error('There was a problem with the fetch operation:', error);
 //   });
 
+
+
 const packages = document.querySelector(".travelPackages");
 
-
-
 for (let place of places) {
+  console.log(place);
   const newPackage = document.createElement("div");
   const newPackageImg = document.createElement("img");
   newPackageImg.src = "../images/goa.jpg";
@@ -63,32 +37,32 @@ for (let place of places) {
 
   newPackage.id = `package`;
   newPackage.append(newPackageImg);
-  
+
   placeName.textContent = place.placeName;
   newPackage.append(placeName);
   placeCity.textContent = place.placeCity;
   newPackage.append(placeCity);
-  placeCountry.textContent = place.Country;
+  placeCountry.textContent = place.placeCountry;
   newPackage.append(placeCountry);
-  const desc = document.createElement('p');
-  desc.textContent=place.description;
+  const desc = document.createElement("p");
+  desc.textContent = place.placeDescription;
   newPackage.append(desc);
   const highlights = document.createElement("p");
-  highlights.textContent = `[${place.highlights}]`;
+  highlights.textContent = `${place.placeHighlights}`;
   newPackage.append(highlights);
   const price = document.createElement("h3");
-  price.textContent = place.price;
+  price.textContent = place.packagePrice;
   newPackage.append(price);
   const duration = document.createElement("h4");
-  duration.textContent = place.duration;
+  duration.textContent = place.packageDays;
   newPackage.append(duration);
 
-  const bookingBtn = document.createElement('button');
-  bookingBtn.textContent ="Book Now"
+  const bookingBtn = document.createElement("button");
+  bookingBtn.textContent = "Book Now";
 
   newPackage.append(bookingBtn);
 
-
   packages.appendChild(newPackage);
 }
+
 
