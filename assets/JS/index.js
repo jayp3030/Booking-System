@@ -1,3 +1,4 @@
+
 const places = JSON.parse(localStorage.getItem("places")) || []; // getting packages added by admin from local storage
 const userBooking = JSON.parse(localStorage.getItem("userbooking")) || []; // getting booked packages added by user from local storage
 
@@ -7,8 +8,33 @@ const packages = document.querySelector(".travelPackages");
 if (validateUser) {
   loginBtn.textContent = 'logout'
 }
+const places = JSON.parse(localStorage.getItem("places")) || [];
+console.log(places);
+
+
+// reading JSOn data stored in json file
+// const url = '../data/data.json';
+// fetch(url)
+//   .then(response => {
+//     if (!response.ok) {
+//       throw new Error('Network response was not ok');
+//     }
+//     return response.json();
+//   })
+//   .then(data => {
+//     destinations = data.destinations;
+//     console.log(destinations[0]);
+//   })
+//   .catch(error => {
+//     console.error('There was a problem with the fetch operation:', error);
+//   });
+
+
+
+const packages = document.querySelector(".travelPackages");
 
 for (let place of places) {
+  console.log(place);
   const newPackage = document.createElement("div");
   newPackage.className = "main-newPackage";
   newPackage.id = `package`;
@@ -18,6 +44,16 @@ for (let place of places) {
   newPackage.append(newPackageImg);
 
   const placeName = document.createElement("h2");
+
+  const placeCity = document.createElement("h3");
+  const placeCountry = document.createElement("h4");
+
+  newPackage.className = "main-newPackage";
+
+  newPackage.id = `package`;
+  newPackage.append(newPackageImg);
+
+
   placeName.textContent = place.placeName;
   newPackage.append(placeName);
 
@@ -26,6 +62,8 @@ for (let place of places) {
   newPackage.append(placeCity);
 
   const placeCountry = document.createElement("h4");
+  placeCountry.textContent = place.placeCountry;
+  newPackage.append(placeCountry);
   placeCountry.textContent = place.placeCountry;
   newPackage.append(placeCountry);
 
@@ -51,6 +89,8 @@ for (let place of places) {
   bookingBtn.onclick = (e) => {
     handleBooking(e);
   };
+  bookingBtn.textContent = "Book Now";
+
   newPackage.append(bookingBtn);
 
   packages.appendChild(newPackage);
@@ -99,3 +139,4 @@ function handleBooking(e) {
 function validateUser() {
   return JSON.parse(localStorage.getItem('isLoggedIn')) === true ? true : false
 }
+
