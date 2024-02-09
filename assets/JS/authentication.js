@@ -1,0 +1,69 @@
+
+const registeredUser = JSON.parse(localStorage.getItem("registeredUser")) || []; 
+const registerForm = document.getElementById('loginForm');
+
+// document.getElementById("role").addEventListener("change",()=>{
+//     const name = document.getElementById('username')
+//     const email = document.getElementById('registerEmail')
+//     console.log(name,email);
+// })
+
+registerForm.addEventListener('submit',(event)=>{
+    event.preventDefault();
+    const name = document.getElementById('username').value;
+    const email = document.getElementById('registerEmail').value;
+    const passWord = document.getElementById('registerPwd').value;
+
+    const obj = {
+        name:name,
+        email:email,
+        passWord:passWord
+    }
+
+    registeredUser.push(obj);
+    localStorage.setItem("registeredUser",JSON.stringify(registeredUser));
+    window.location.href="../html/login.html";
+})
+
+const loginFormData = document.getElementById("loginForm");
+
+loginFormData.addEventListener('submit',(event)=>{
+    event.preventDefault();
+    const email = document.getElementById('emailId').value;
+    const passWord = document.getElementById('pwd').value;
+    const role =document.getElementById("role").value;
+
+    if(role === "admin") {
+        validateAdmin(email,passWord);
+        return 
+    }
+
+    const users= JSON.parse(localStorage.getItem("registeredUser"));
+    const loggedinUser = users.find((user)=>{
+        return (user.email === email && user.passWord === passWord)
+     } )
+    
+     if (!loggedinUser) {
+        alert('User Not Registered')
+       window.location.href="../html/register.html";
+     }else{
+        localStorage.setItem("email",email);
+        localStorage.setItem("password",passWord);
+         window.location.href="../html/index.html";
+     }    
+})
+
+function validateAdmin(email , password){
+    const admin = {
+        name : 'admin',
+        adminEmail : 'admin@gmail.com',
+        adminPass : 'admin@123'
+    }
+
+    if (email === admin.adminEmail && password === admin.adminPass) {
+        location.href='../html/admin.html'
+    }
+    else{
+        alert('Invalid Credentials!')
+    }
+}
