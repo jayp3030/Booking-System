@@ -88,7 +88,7 @@ function handleBooking(e) {
   if (!validateUser()) {
     alert('Login to book package')
     location.href = '../html/login.html'
-    retun;
+    return;
   }
   const numOfMember = prompt('Enter the number of member')
 
