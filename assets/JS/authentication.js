@@ -1,14 +1,9 @@
 
 const registeredUser = JSON.parse(localStorage.getItem("registeredUser")) || []; 
-const registerForm = document.getElementById('loginForm');
+const registerForm = document.getElementById('registerForm');
 
-// document.getElementById("role").addEventListener("change",()=>{
-//     const name = document.getElementById('username')
-//     const email = document.getElementById('registerEmail')
-//     console.log(name,email);
-// })
-
-registerForm.addEventListener('submit',(event)=>{
+// registering user 
+registerForm?.addEventListener('submit',(event)=>{
     event.preventDefault();
     const name = document.getElementById('username').value;
     const email = document.getElementById('registerEmail').value;
@@ -25,9 +20,9 @@ registerForm.addEventListener('submit',(event)=>{
     window.location.href="../html/login.html";
 })
 
+// verifying user or admin while login
 const loginFormData = document.getElementById("loginForm");
-
-loginFormData.addEventListener('submit',(event)=>{
+loginFormData?.addEventListener('submit',(event)=>{
     event.preventDefault();
     const email = document.getElementById('emailId').value;
     const passWord = document.getElementById('pwd').value;
@@ -38,8 +33,7 @@ loginFormData.addEventListener('submit',(event)=>{
         return 
     }
 
-    const users= JSON.parse(localStorage.getItem("registeredUser"));
-    const loggedinUser = users.find((user)=>{
+    const loggedinUser = registeredUser.find((user)=>{
         return (user.email === email && user.passWord === passWord)
      } )
     
@@ -49,10 +43,13 @@ loginFormData.addEventListener('submit',(event)=>{
      }else{
         localStorage.setItem("email",email);
         localStorage.setItem("password",passWord);
+        localStorage.setItem('isLoggedIn','true');
          window.location.href="../html/index.html";
      }    
 })
 
+
+// funtion to validate the admin credentials
 function validateAdmin(email , password){
     const admin = {
         name : 'admin',
@@ -61,6 +58,8 @@ function validateAdmin(email , password){
     }
 
     if (email === admin.adminEmail && password === admin.adminPass) {
+        localStorage.setItem('isAdminLoggedIn','true')
+        alert('Admin Logged In Successfully!')
         location.href='../html/admin.html'
     }
     else{
