@@ -2,6 +2,7 @@ const packageForm = document.querySelector("#addPackageForm");
 const placesDiv = document.querySelector("#places");
 const places = JSON.parse(localStorage.getItem("places")) || [];
 
+const adminPagePackages = document.querySelector(".adminPagePackages");
 const isAdminLoggeIn = localStorage.getItem("isAdminLoggedIn");
 const adminLoginBtn = document.querySelector("#adminLoginBtn");
 
@@ -20,7 +21,6 @@ adminLoginBtn.addEventListener("click", () => {
 
 packageForm.addEventListener("submit", (e) => {
   e.preventDefault();
-
   // getting all input value from form
   const placeName = document.querySelector("#placeName").value;
   const placeCity = document.querySelector("#placeCity").value;
@@ -67,11 +67,12 @@ packageForm.addEventListener("submit", (e) => {
   places.push(package);
   localStorage.setItem("places", JSON.stringify(places));
   alert("Package added Successfully !");
+  adminPagePackages.innerHTML ='';
+  adminPageFunction(places);
 });
 
 // see existing packages here
 
-const adminPagePackages = document.querySelector(".adminPagePackages");
 let i = 1;
 
 adminPageFunction(places);

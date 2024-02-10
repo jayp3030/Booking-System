@@ -2,16 +2,23 @@ const places = JSON.parse(localStorage.getItem("places")) || []; // getting pack
 const userBooking = JSON.parse(localStorage.getItem("userbooking")) || []; // getting booked packages added by user from local storage
 const allBookings = JSON.parse(localStorage.getItem("allBookings")) || [];
 
+// getting total pages
+function getTotalPages(totalItems, itemsPerPage) {
+  return Math.ceil(totalItems / itemsPerPage);
+}
+const itemsPerPage = 5; // Number of items per page
+const totalItems = places.length; // Total number of items
+let currentPage = 1; // Initial current page
+
 const packages = document.querySelector("#travelPackages");
 const loginBtn = document.querySelector("#loginBtn");
+const cartBtn = document.querySelector("#cartBtn");
 
-function validateUser() {
-  return localStorage.getItem("isLoggedIn") === "true" ? true : false;
-}
+const validateUser = () => localStorage.getItem("isLoggedIn") === "true";
 // to change the button text content
-if (validateUser()) {
-  loginBtn.textContent = "logout";
-}
+const updateLoginButtonText = () =>
+  (loginBtn.textContent = validateUser() ? "logout" : "login");
+
 // logout user
 loginBtn.addEventListener("click", (e) => {
   if (e.target.textContent === "login") {
@@ -22,67 +29,58 @@ loginBtn.addEventListener("click", (e) => {
   localStorage.removeItem("isLoggedIn");
   localStorage.removeItem("email");
   localStorage.removeItem("password");
-  loginBtn.textContent = "login";
+  updateLoginButtonText();
+});
+
+// cart validation
+cartBtn.addEventListener("click", () => {
+  if (!validateUser()) {
+    alert("Login First...");
+    location.href = "../html/login.html";
+    return;
+  } else {
+    location.href = "../html/cart.html";
+  }
 });
 
 displayPackages(places);
 function displayPackages(payload) {
-  for (let place of payload) {
-    const newPackage = document.createElement("div");
-    newPackage.className = "main-newPackage";
-    newPackage.id = `package`;
+  packages.innerHTML = payload
+    .map((place) => {
+      const {
+        placeName,
+        placeCity,
+        placeCountry,
+        placeDescription,
+        placeHighlights,
+        packagePrice,
+        packageDays,
+      } = place;
 
-    const newPackageImg = document.createElement("img");
-    newPackageImg.src = "../images/goa.jpg";
-    newPackage.append(newPackageImg);
-    newPackage.className = "main-newPackage";
-    newPackage.id = `package`;
-    newPackage.append(newPackageImg);
-
-    const placeName = document.createElement("h2");
-    placeName.textContent = place.placeName;
-    newPackage.append(placeName);
-
-    const placeCity = document.createElement("h3");
-    placeCity.textContent = place.placeCity;
-    newPackage.append(placeCity);
-
-    const placeCountry = document.createElement("h4");
-    placeCountry.textContent = place.placeCountry;
-    newPackage.append(placeCountry);
-    placeCountry.textContent = place.placeCountry;
-    newPackage.append(placeCountry);
-
-    const desc = document.createElement("p");
-    desc.textContent = place.placeDescription;
-    newPackage.append(desc);
-
-    const highlights = document.createElement("p");
-    highlights.textContent = `${place.placeHighlights}`;
-    newPackage.append(highlights);
-
-    const price = document.createElement("h3");
-    price.textContent = `${place.packagePrice}/person`;
-    newPackage.append(price);
-
-    const duration = document.createElement("h4");
-    duration.textContent = `${place.packageDays} days`;
-    newPackage.append(duration);
-
-    const bookingBtn = document.createElement("button");
-    bookingBtn.id = "bookingBtn";
-    bookingBtn.textContent = "Book Now";
-    bookingBtn.onclick = (e) => {
-      handleBooking(e);
-    };
-    bookingBtn.textContent = "Book Now";
-
-    newPackage.append(bookingBtn);
-
-    packages.appendChild(newPackage);
-  }
+      return `
+      <div class="main-newPackage" id="package">
+        <img src="../images/goa.jpg" />
+        <h2>${placeName}</h2>
+        <h3>${placeCity}</h3>
+        <h4>${placeCountry}</h4>
+        <p>${placeDescription}</p>
+        <p>${placeHighlights}</p>
+        <h3>${packagePrice}/person</h3>
+        <h4>${packageDays} days</h4>
+        <button class="bookingBtn">Book Now</button>
+      </div>
+    `;
+    })
+    .join("");
 }
 
+// we are adding buttons dynamically so if new buttons are added to the page then they don't have event listner so we have to delegate event
+// from body to that button..
+document.body.addEventListener("click", function (e) {
+  if (e.target.classList.contains("bookingBtn")) {
+    handleBooking(e);
+  }
+});
 // handle booking
 function handleBooking(e) {
   // check thst user is loggein or not;
@@ -94,6 +92,7 @@ function handleBooking(e) {
   const numOfMember = prompt("Enter the number of member");
 
   const parent = e.target.parentNode;
+  
   const placeName = parent.children[1].textContent;
   const placeCity = parent.children[2].textContent;
   const placeCountry = parent.children[3].textContent;
@@ -147,14 +146,14 @@ searchBar.addEventListener("input", (e) => {
   clearTimeout(debounceSearchTimeout);
   debounceSearchTimeout = setTimeout(() => {
     const userInput = e.target.value.toLowerCase();
-    const searcherPackage = places.filter((place) => {
+    const searchedPackage = places.filter((place) => {
       return (
         place.placeName.toLowerCase().includes(userInput) ||
         place.placeCity.toLowerCase().includes(userInput)
       );
     });
     packages.innerHTML = "";
-    displayPackages(searcherPackage);
+    displayItems(currentPage, itemsPerPage, searchedPackage);
     // console.log(userInput);
   }, 500);
 });
@@ -172,12 +171,12 @@ sortBySelect.addEventListener("change", (e) => {
     sortedPackages.sort((a, b) => a.packageDays - b.packageDays);
   } else if (userInput.toLowerCase() === "default") {
     packages.innerHTML = "";
-    displayPackages(places);
+    displayItems(currentPage, itemsPerPage, places);
     return;
   }
   console.log(sortedPackages);
   packages.innerHTML = "";
-  displayPackages(sortedPackages);
+  displayItems(currentPage, itemsPerPage, sortedPackages);
 });
 
 // price filter
@@ -186,8 +185,8 @@ const maxPriceInput = document.querySelector("#maxPrice");
 const priceFilterBtn = document.querySelector("#priceFilterBtn");
 const priceFilterRmvBtn = document.querySelector("#priceFilterRmvBtn");
 
-priceFilterBtn.addEventListener('click' , handleFilter);
-priceFilterRmvBtn.addEventListener('click' , removeFilter);
+priceFilterBtn.addEventListener("click", handleFilter);
+priceFilterRmvBtn.addEventListener("click", removeFilter);
 
 function handleFilter() {
   const minPrice = parseFloat(minPriceInput.value) || 0;
@@ -199,12 +198,55 @@ function handleFilter() {
 
   console.log(filteredPackages);
   packages.innerHTML = "";
-  displayPackages(filteredPackages);
+  displayItems(currentPage, itemsPerPage, filteredPackages);
 }
 
 function removeFilter() {
-  minPriceInput.value = ''
-  maxPriceInput.value = ''
+  minPriceInput.value = "";
+  maxPriceInput.value = "";
   packages.innerHTML = "";
-  displayPackages(places);
+  displayItems(currentPage, itemsPerPage, places);
+}
+
+// -------------------------------- pagination ---------------------------------
+
+// dynamically create buttons as per requirments
+function createNavigationButtons(totalPages) {
+  const navigationContainer = document.getElementById("navigationContainer");
+  navigationContainer.innerHTML = ""; // Clear previous buttons
+
+  for (let i = 1; i <= totalPages; i++) {
+    const button = document.createElement("button");
+    button.textContent = i;
+    button.addEventListener("click", () => {
+      navigateToPage(i);
+    });
+    navigationContainer.appendChild(button);
+  }
+}
+// display items per page
+function displayItems(pageNumber, itemsPerPage, arrayToShow) {
+  const startIndex = (pageNumber - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  // it will show 0-4 , 5-9 indexes
+  const itemsToShow = arrayToShow.slice(startIndex, endIndex);
+  packages.innerHTML = "";
+  displayPackages(itemsToShow);
+}
+
+displayItems(currentPage, itemsPerPage, places);
+createNavigationButtons(getTotalPages(totalItems, itemsPerPage));
+
+// Function to handle pagination navigation
+function navigateToPage(pageNumber) {
+  // Validate pageNumber
+  if (pageNumber < 1 || pageNumber > getTotalPages(totalItems, itemsPerPage)) {
+    return;
+  }
+
+  // Update current page
+  currentPage = pageNumber;
+
+  // Display items for the selected page
+  displayItems(currentPage, itemsPerPage, places);
 }

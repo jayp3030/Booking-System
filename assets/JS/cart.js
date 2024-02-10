@@ -1,12 +1,12 @@
-const usersBooking = JSON.parse(localStorage.getItem("userbooking")) || [];
-console.log(usersBooking);
+const userBooking = JSON.parse(localStorage.getItem("userbooking")) || [];
+console.log(userBooking);
 
 
 
 //admin login/logout 
 
 const isUserLoggedIn = localStorage.getItem('isLoggedIn');
-const userLogInBtn = document.querySelector('#loginBtnInCart');
+const userLogInBtn = document.querySelector('#loginBtn');
 
 if (isUserLoggedIn) {
     userLogInBtn.textContent ='logout'
@@ -14,7 +14,7 @@ if (isUserLoggedIn) {
 
 // logout admin
 userLogInBtn.addEventListener('click' , ()=>{
-    if (adminLoginBtn.textContent === 'logout' ) {
+    if (userLogInBtn.textContent === 'logout' ) {
         localStorage.removeItem('isLoggedIn');
         alert('User Logged out..')
         location.href = '../html/index.html'
@@ -30,7 +30,7 @@ userLogInBtn.addEventListener('click' , ()=>{
 const bookedPackage = document.querySelector(".bookingReview");
 
 
-displayPackages(usersBooking);
+displayPackages(userBooking);
 
 function displayPackages(payload) {
   for (let place of payload) {
@@ -117,11 +117,9 @@ function deletePackage(event) {
   const targetId = targetPackage.id;
   
   document.getElementById(targetId).remove();
-  const dataOfPackages = localStorage.getItem("userbooking");
-
-  const ParsedData = JSON.parse(dataOfPackages);
-
-  const filteredPackages = ParsedData.filter((dest, index) => {
+ 
+ 
+  const filteredPackages = userBooking.filter((dest) => {
     return (
       dest.placeCity !== targetCity &&
       dest.placeName !== targetPlace &&
