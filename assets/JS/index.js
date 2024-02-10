@@ -1,101 +1,100 @@
-
 const places = JSON.parse(localStorage.getItem("places")) || []; // getting packages added by admin from local storage
 const userBooking = JSON.parse(localStorage.getItem("userbooking")) || []; // getting booked packages added by user from local storage
+const allBookings = JSON.parse(localStorage.getItem('allBookings')) || []
 
 const packages = document.querySelector(".travelPackages");
-const loginBtn = document.querySelector('#loginBtn');
+const loginBtn = document.querySelector("#loginBtn");
 
 function validateUser() {
-  return JSON.parse(localStorage.getItem('isLoggedIn')) === true ? true : false
+  return JSON.parse(localStorage.getItem("isLoggedIn")) === true ? true : false;
 }
+
 // to change the button text content
-if (validateUser) {
-  loginBtn.textContent = 'logout'
-}
+if (validateUser()) {
+  loginBtn.textContent = "logout";
+} 
 
 // logout user
-loginBtn.addEventListener('click' , (e)=>{
-    if (e.target.textContent === 'login') {
-      location.href = '../html/login.html'
-      return
-    }
-    console.log('logging out');
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('email');
-    localStorage.removeItem('password');
-    alert('Logout successful')
-    loginBtn.textContent = 'login'
+loginBtn.addEventListener("click", (e) => {
+  if (e.target.textContent === "login") {
+    location.href = "../html/login.html";
+    return;
+  }
+  console.log("logging out");
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("email");
+  localStorage.removeItem("password");
+  alert("Logout successful");
+  loginBtn.textContent = "login";
+});
 
-})
+display(places)
 
+function display(payload) {
+  for (let place of payload) {
+    const newPackage = document.createElement("div");
+    newPackage.className = "main-newPackage";
+    newPackage.id = `package`;
 
+    const newPackageImg = document.createElement("img");
+    newPackageImg.src = "../images/goa.jpg";
+    newPackage.append(newPackageImg);
+    newPackage.className = "main-newPackage";
+    newPackage.id = `package`;
+    newPackage.append(newPackageImg);
 
-for (let place of places) {
+    const placeName = document.createElement("h2");
+    placeName.textContent = place.placeName;
+    newPackage.append(placeName);
 
-  const newPackage = document.createElement("div");
-  newPackage.className = "main-newPackage";
-  newPackage.id = `package`;
+    const placeCity = document.createElement("h3");
+    placeCity.textContent = place.placeCity;
+    newPackage.append(placeCity);
 
-  const newPackageImg = document.createElement("img");
-  newPackageImg.src = "../images/goa.jpg";
-  newPackage.append(newPackageImg);
-  newPackage.className = "main-newPackage";
-  newPackage.id = `package`;
-  newPackage.append(newPackageImg);
-  
-  
-  const placeName = document.createElement("h2");
-  placeName.textContent = place.placeName;
-  newPackage.append(placeName);
+    const placeCountry = document.createElement("h4");
+    placeCountry.textContent = place.placeCountry;
+    newPackage.append(placeCountry);
+    placeCountry.textContent = place.placeCountry;
+    newPackage.append(placeCountry);
 
-  const placeCity = document.createElement("h3");
-  placeCity.textContent = place.placeCity;
-  newPackage.append(placeCity);
+    const desc = document.createElement("p");
+    desc.textContent = place.placeDescription;
+    newPackage.append(desc);
 
-  const placeCountry = document.createElement("h4");
-  placeCountry.textContent = place.placeCountry;
-  newPackage.append(placeCountry);
-  placeCountry.textContent = place.placeCountry;
-  newPackage.append(placeCountry);
+    const highlights = document.createElement("p");
+    highlights.textContent = `${place.placeHighlights}`;
+    newPackage.append(highlights);
 
-  const desc = document.createElement("p");
-  desc.textContent = place.placeDescription;
-  newPackage.append(desc);
+    const price = document.createElement("h3");
+    price.textContent = place.packagePrice;
+    newPackage.append(price);
 
-  const highlights = document.createElement("p");
-  highlights.textContent = `${place.placeHighlights}`;
-  newPackage.append(highlights);
+    const duration = document.createElement("h4");
+    duration.textContent = place.packageDays;
+    newPackage.append(duration);
 
-  const price = document.createElement("h3");
-  price.textContent = place.packagePrice;
-  newPackage.append(price);
+    const bookingBtn = document.createElement("button");
+    bookingBtn.id = "bookingBtn";
+    bookingBtn.textContent = "Book Now";
+    bookingBtn.onclick = (e) => {
+      handleBooking(e);
+    };
+    bookingBtn.textContent = "Book Now";
 
-  const duration = document.createElement("h4");
-  duration.textContent = place.packageDays;
-  newPackage.append(duration);
+    newPackage.append(bookingBtn);
 
-  const bookingBtn = document.createElement("button");
-  bookingBtn.id = "bookingBtn";
-  bookingBtn.textContent = "Book Now";
-  bookingBtn.onclick = (e) => {
-    handleBooking(e);
-  };
-  bookingBtn.textContent = "Book Now";
-
-  newPackage.append(bookingBtn);
-
-  packages.appendChild(newPackage);
+    packages.appendChild(newPackage);
+  }
 }
 
 function handleBooking(e) {
-
   // check thst user is loggein or not;
   if (!validateUser()) {
-    alert('Login to book package')
-    location.href = '../html/login.html'
+    alert("Login to book package");
+    location.href = "../html/login.html";
     retun;
   }
-  const numOfMember = prompt('Enter the number of member')
+  const numOfMember = prompt("Enter the number of member");
 
   const parent = e.target.parentNode;
   console.log(parent);
@@ -108,23 +107,37 @@ function handleBooking(e) {
   const packagePrice = parent.children[6].textContent;
   const packageDays = parent.children[7].textContent;
 
-  const placeHighlightsArr = placeHighlights.split(',');
+  const placeHighlightsArr = placeHighlights.split(",");
 
   const booking = {
     placeName: placeName,
     placeCity: placeCity,
     placeCountry: placeCountry,
     placeHighlights: placeHighlightsArr,
-    placeDescription:placeDescription,
+    placeDescription: placeDescription,
     packagePrice: packagePrice,
     packageDays: packageDays,
-    members : numOfMember
+    members: numOfMember,
   };
 
   userBooking.push(booking);
-  localStorage.setItem('userbooking' , JSON.stringify(userBooking))
+  localStorage.setItem("userbooking", JSON.stringify(userBooking));
   console.log(userBooking);
 
+  const userWithBooking = {
+    email : localStorage.getItem('email'),
+    bookings : userBooking
+  }
+  // ---------------------------- error here
+  // allBookings.forEach((curr) =>{
+  //     if(curr.email !== localStorage.getItem('email')){
+  //       allBookings.push(userWithBooking);
+  //       return
+  //     }
+  //     const bookings = JSON.parse(curr.bookings);
+  //     bookings.push(userBooking);
+  // })
+
+  localStorage.setItem('allBookings',JSON.stringify(allBookings));
+  console.log(allBookings);
 }
-
-
