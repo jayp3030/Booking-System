@@ -1,7 +1,10 @@
-const usersBooking = JSON.parse(localStorage.getItem("userbooking")) || [];
-console.log(usersBooking);
 
+const userBooking = JSON.parse(localStorage.getItem("userbooking")) || [];
+const allBookings = JSON.parse(localStorage.getItem("allBookings")) || [];
+const email = localStorage.getItem("email");
+console.log(email); 
 
+console.log(allBookings);
 
 //admin login/logout 
 
@@ -14,7 +17,7 @@ if (isUserLoggedIn) {
 
 // logout admin
 userLogInBtn.addEventListener('click' , ()=>{
-    if (adminLoginBtn.textContent === 'logout' ) {
+    if (userLogInBtn.textContent === 'logout' ) {
         localStorage.removeItem('isLoggedIn');
         alert('User Logged out..')
         location.href = '../html/index.html'
@@ -30,9 +33,10 @@ userLogInBtn.addEventListener('click' , ()=>{
 const bookedPackage = document.querySelector(".bookingReview");
 
 
-displayPackages(usersBooking);
+displayPackages(userBooking);
 
 function displayPackages(payload) {
+  let i=1;
   for (let place of payload) {
     const newPackage = document.createElement("div");
     newPackage.className = "main-newPackage";
@@ -42,7 +46,7 @@ function displayPackages(payload) {
     newPackageImg.src = "../images/goa.jpg";
     newPackage.append(newPackageImg);
     newPackage.className = "main-newPackage";
-    newPackage.id = `package`;
+    newPackage.id = `package_${i}`;
     newPackage.append(newPackageImg);
 
     const placeName = document.createElement("h2");
@@ -75,10 +79,12 @@ function displayPackages(payload) {
     duration.textContent = place.packageDays;
     newPackage.append(duration);
 
+
     const cost = document.createElement('h4');
-    const totalCost =  (place.members * place.packagePrice);
-    console.log(totalCost);
+    const onePackPrice = place.packagePrice.split('/')[0] || place.packagePrice;
+    const totalCost =  (place.members * onePackPrice);
     cost.textContent = `${totalCost}$`;
+    newPackage.append(cost);
 
     const deleteBooking = document.createElement("button");
     deleteBooking.textContent = "Delete Package";
@@ -92,10 +98,11 @@ function displayPackages(payload) {
     newPackage.append(editBooking);
 
     bookedPackage.appendChild(newPackage);
+    i++;
   }
 }
 
-var buttons = document.querySelectorAll('#deletePackageBtn');
+var buttons = document.querySelectorAll('.deleteButton');
 
 
 buttons.forEach(function(button) {
@@ -115,22 +122,41 @@ function deletePackage(event) {
   const targetPlace = targetPackage.children[1].textContent;
   const targetCountry = targetPackage.children[3].textContent;
   const targetId = targetPackage.id;
+
+  
   
   document.getElementById(targetId).remove();
-  const dataOfPackages = localStorage.getItem("userbooking");
 
-  const ParsedData = JSON.parse(dataOfPackages);
+  const index = userBooking.findIndex((dest)=>{
+    return (dest.placeCity === targetCity && dest.placeName === targetPlace && dest.placeCountry === targetCountry)
+  })
+  console.log(index);
 
-  const filteredPackages = ParsedData.filter((dest, index) => {
-    return (
-      dest.placeCity !== targetCity &&
-      dest.placeName !== targetPlace &&
-      dest.placeCountry !== targetCountry
-    );
-  });
+  userBooking.splice(index,1);
 
-  console.log(filteredPackages);
-  localStorage.setItem("userbooking", JSON.stringify(filteredPackages));
+  // const filteredPackages = userBooking.filter((dest) => {
+  //   console.log(dest.placeCity);
+  //   console.log(dest.placeName);
+  //   console.log(dest.placeCountry);
+  //   return dest.placeCity !== targetCity && dest.placeName !== targetPlace && dest.placeCountry !== targetCountry
+    
+  // });
+
+  
+  //remove booking from allbooking array
+  localStorage.setItem("userbooking", JSON.stringify(userBooking));
+
+  const emailIndex = allBookings.findIndex((dest)=>{
+    return (dest.email === email);
+  })
+
+ allBookings[emailIndex].bookings.splice(index,1);
+  console.log(allBookings);
+  localStorage.setItem("allBookings",JSON.stringify(allBookings));
+  
+
+
+
 }
 
 

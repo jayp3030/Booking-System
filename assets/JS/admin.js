@@ -1,12 +1,13 @@
 const packageForm = document.querySelector("#addPackageForm");
 const placesDiv = document.querySelector("#places");
 const places = JSON.parse(localStorage.getItem("places")) || [];
+const allBookings = JSON.parse(localStorage.getItem("allBookings"));
 
 const isAdminLoggeIn = localStorage.getItem("isAdminLoggedIn");
 const adminLoginBtn = document.querySelector("#adminLoginBtn");
 
 if (isAdminLoggeIn) {
-  adminLoginBtn.textContent = "logout";
+  adminLoginBtn.textContent ="logout";
 }
 
 // logout admin
@@ -152,18 +153,28 @@ function deletePackage(event) {
   const targetId = targetPackage.id;
   
   document.getElementById(targetId).remove();
-  const dataOfPackages = localStorage.getItem("places");
+  
 
-  const ParsedData = JSON.parse(dataOfPackages);
-
-  const filteredPackages = ParsedData.filter((dest, index) => {
+  const index = places.findIndex((dest)=>{
     return (
-      dest.placeCity !== targetCity &&
-      dest.placeName !== targetPlace &&
-      dest.placeCountry !== targetCountry
-    );
-  });
+          dest.placeCity !== targetCity &&
+          dest.placeName !== targetPlace &&
+          dest.placeCountry !== targetCountry
+        );
+  })
 
-  console.log(filteredPackages);
-  localStorage.setItem("places", JSON.stringify(filteredPackages));
+  places.splice(index,1);
+
+  // const filteredPackages = ParsedData.filter((dest, index) => {
+  //   return (
+  //     dest.placeCity !== targetCity &&
+  //     dest.placeName !== targetPlace &&
+  //     dest.placeCountry !== targetCountry
+  //   );
+  // });
+
+  
+  localStorage.setItem("places", JSON.stringify(places));
 }
+
+
