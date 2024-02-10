@@ -106,6 +106,7 @@ function adminPageFunction(payload) {
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "Delete Package";
     deleteBtn.id = `deletePackageBtn${i}`;
+    deleteBtn.className="deleteButton";
     newPackage.append(deleteBtn);
 
     const editBtn = document.createElement("button");
@@ -119,11 +120,23 @@ function adminPageFunction(payload) {
   }
 }
 
-document
-  .getElementsByClassName("adminPagePackages")[0]
-  .addEventListener("click", (event) => {
-    deletePackage(event);
-  });
+// document
+//   .getElementsByClassName("deleteButton")
+//   .addEventListener("click", (event) => {
+//     deletePackage(event);
+//   });
+
+var buttons = document.querySelectorAll('.deleteButton');
+
+
+buttons.forEach(function(button) {
+    button.addEventListener('click', function(event) {
+      alert("Are you sure to delete it?")
+       
+        deletePackage(event);
+        
+    });
+});
 
 function deletePackage(event) {
   const targetPackage = event.target.parentNode;
@@ -131,9 +144,8 @@ function deletePackage(event) {
   const targetPlace = targetPackage.children[2].textContent;
   const targetCountry = targetPackage.children[3].textContent;
   const targetId = targetPackage.id;
-
+  
   document.getElementById(targetId).remove();
-
   const dataOfPackages = localStorage.getItem("places");
 
   const ParsedData = JSON.parse(dataOfPackages);
