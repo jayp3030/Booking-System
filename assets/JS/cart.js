@@ -9,7 +9,7 @@ console.log(allBookings);
 //admin login/logout 
 
 const isUserLoggedIn = localStorage.getItem('isLoggedIn');
-const userLogInBtn = document.querySelector('#loginBtnInCart');
+const userLogInBtn = document.querySelector('#loginBtn');
 
 if (isUserLoggedIn) {
     userLogInBtn.textContent ='logout'
@@ -17,6 +17,7 @@ if (isUserLoggedIn) {
 
 // logout admin
 userLogInBtn.addEventListener('click' , ()=>{
+  
     if (userLogInBtn.textContent === 'logout' ) {
         localStorage.removeItem('isLoggedIn');
         alert('User Logged out..')
