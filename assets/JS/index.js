@@ -23,7 +23,7 @@ loginBtn.addEventListener("click", (e) => {
 
 displayPackages(places);
 
- export function displayPackages(payload) {
+  function displayPackages(payload) {
   for (let place of payload) {
     const newPackage = document.createElement("div");
     newPackage.className = "main-newPackage";
