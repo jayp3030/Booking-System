@@ -20,7 +20,7 @@ registerForm?.addEventListener('submit',(event)=>{
     window.location.href="../html/login.html";
 })
 
-// verifying user or admin while login
+// user/admin login
 const loginFormData = document.getElementById("loginForm");
 loginFormData?.addEventListener('submit',(event)=>{
     event.preventDefault();
@@ -38,12 +38,13 @@ loginFormData?.addEventListener('submit',(event)=>{
      } )
     
      if (!loggedinUser) {
-        alert('User Not Registered')
-       window.location.href="../html/register.html";
+        alert('User Not Registered or invalid credentials..')
+    //    window.location.href="../html/register.html";
      }else{
         localStorage.setItem("email",email);
         localStorage.setItem("password",passWord);
         localStorage.setItem('isLoggedIn','true');
+        alert('LoggedIn Successfully..')
          window.location.href="../html/index.html";
      }    
 })
