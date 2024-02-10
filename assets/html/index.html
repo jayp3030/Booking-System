@@ -31,7 +31,24 @@
         <i class="fa-solid fa-magnifying-glass"></i>
         <input type="text" placeholder="Search here" id="search">
     </div>
-    <div class="travelPackages">
+    <div class="filterWrapper">
+        <h3>sort by</h3>
+        <select id="sortBySelect">
+            <option value="default" selected>default</option>
+            <option value="numOfDays">Days</option>
+            <option value="price">Price</option>
+        </select>
+    </div>
+    <div class="priceFilterWrapper">
+        <h3>price filter : </h3>
+        <label for="minPrice">Min Price:</label>
+        <input type="number" id="minPrice" min="0">
+        <label for="maxPrice">Max Price:</label>
+        <input type="number" id="maxPrice" min="0">
+        <button id="priceFilterBtn">filter</button>
+        <button id="priceFilterRmvBtn">remove filter</button>
+    </div>
+    <div id="travelPackages">
 
     </div>
     <script src="../JS/index.js"></script>
