@@ -1,5 +1,6 @@
 const allBookings = JSON.parse(localStorage.getItem("allBookings"));
 
+
 viewAllBookings(allBookings);
 
 function viewAllBookings(allBookings) {
@@ -65,11 +66,7 @@ function viewAllBookings(allBookings) {
         deleteBtn.className = "deleteButton";
         newPackage.append(deleteBtn);
 
-        const editBtn = document.createElement("button");
-        editBtn.textContent = "Edit Package";
-        editBtn.id = "editPackageBtn";
-        newPackage.append(editBtn);
-
+        
         oneUsersBooking.appendChild(newPackage);
       }
     }
@@ -79,14 +76,31 @@ function viewAllBookings(allBookings) {
   }
 }
 
-var buttons = document.querySelectorAll(".deleteButton");
+// var buttons = document.querySelectorAll(".deleteButton");
 
-buttons.forEach(function (button) {
-  button.addEventListener("click", function (event) {
-    alert("Are you sure to delete it?");
+// buttons.forEach(function (button) {
+//   button.addEventListener("click", function (event) {
+//     alert("Are you sure to delete it?");
 
-    deletePackage(event);
-  });
+//     deletePackage(event);
+//   });
+// });
+
+document.body.addEventListener("click", function (e) {
+  if (e.target.classList.contains("editPackageBtn")) {
+    const confirmation = confirm("Are you sure to Edit it?");
+    if (confirmation) {
+      editPackage(e);
+      return;
+    }
+  }
+  if (e.target.classList.contains("deleteButton")) {
+    const confirmation = confirm("Are you sure to delete it?");
+    if (confirmation) {
+      deletePackage(e);
+      return;
+    }
+  }
 });
 
 function deletePackage(event) {
@@ -97,22 +111,24 @@ function deletePackage(event) {
   const targetId = targetPackage.id;
 
   const emailValue = targetPackage.parentNode.children[1].textContent;
-  console.log(emailValue);
 
   document.getElementById(targetId).remove();
 
   const emailIndex = allBookings.findIndex((dest) => {
     return dest.email === emailValue;
   });
-  
+
   const index = allBookings[emailIndex].bookings.findIndex((dest) => {
-    
     return (
-      dest.placeCity === targetPlace && dest.placeName === targetCity && dest.placeCountry === targetCountry);
+      dest.placeCity === targetPlace &&
+      dest.placeName === targetCity &&
+      dest.placeCountry === targetCountry
+    );
   });
-  console.log(index);
 
   allBookings[emailIndex].bookings.splice(index, 1);
-  console.log(allBookings);
+
   localStorage.setItem("allBookings", JSON.stringify(allBookings));
 }
+
+
