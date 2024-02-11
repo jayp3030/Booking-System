@@ -1,7 +1,10 @@
+
 const userBooking = JSON.parse(localStorage.getItem("userbooking")) || [];
-console.log(userBooking);
+const allBookings = JSON.parse(localStorage.getItem("allBookings")) || [];
+const email = localStorage.getItem("email");
+console.log(email); 
 
-
+console.log(allBookings);
 
 //admin login/logout 
 
@@ -14,6 +17,7 @@ if (isUserLoggedIn) {
 
 // logout admin
 userLogInBtn.addEventListener('click' , ()=>{
+  
     if (userLogInBtn.textContent === 'logout' ) {
         localStorage.removeItem('isLoggedIn');
         alert('User Logged out..')
@@ -33,6 +37,7 @@ const bookedPackage = document.querySelector(".bookingReview");
 displayPackages(userBooking);
 
 function displayPackages(payload) {
+  let i=1;
   for (let place of payload) {
     const newPackage = document.createElement("div");
     newPackage.className = "main-newPackage";
@@ -42,7 +47,7 @@ function displayPackages(payload) {
     newPackageImg.src = "../images/goa.jpg";
     newPackage.append(newPackageImg);
     newPackage.className = "main-newPackage";
-    newPackage.id = `package`;
+    newPackage.id = `package_${i}`;
     newPackage.append(newPackageImg);
 
     const placeName = document.createElement("h2");
@@ -75,10 +80,12 @@ function displayPackages(payload) {
     duration.textContent = place.packageDays;
     newPackage.append(duration);
 
+
     const cost = document.createElement('h4');
-    const totalCost =  (place.members * place.packagePrice);
-    console.log(totalCost);
+    const onePackPrice = place.packagePrice.split('/')[0] || place.packagePrice;
+    const totalCost =  (place.members * onePackPrice);
     cost.textContent = `${totalCost}$`;
+    newPackage.append(cost);
 
     const deleteBooking = document.createElement("button");
     deleteBooking.textContent = "Delete Package";
@@ -92,10 +99,11 @@ function displayPackages(payload) {
     newPackage.append(editBooking);
 
     bookedPackage.appendChild(newPackage);
+    i++;
   }
 }
 
-var buttons = document.querySelectorAll('#deletePackageBtn');
+var buttons = document.querySelectorAll('.deleteButton');
 
 
 buttons.forEach(function(button) {
@@ -115,20 +123,41 @@ function deletePackage(event) {
   const targetPlace = targetPackage.children[1].textContent;
   const targetCountry = targetPackage.children[3].textContent;
   const targetId = targetPackage.id;
+
+  
   
   document.getElementById(targetId).remove();
- 
- 
-  const filteredPackages = userBooking.filter((dest) => {
-    return (
-      dest.placeCity !== targetCity &&
-      dest.placeName !== targetPlace &&
-      dest.placeCountry !== targetCountry
-    );
-  });
 
-  console.log(filteredPackages);
-  localStorage.setItem("userbooking", JSON.stringify(filteredPackages));
+  const index = userBooking.findIndex((dest)=>{
+    return (dest.placeCity === targetCity && dest.placeName === targetPlace && dest.placeCountry === targetCountry)
+  })
+  console.log(index);
+
+  userBooking.splice(index,1);
+
+  // const filteredPackages = userBooking.filter((dest) => {
+  //   console.log(dest.placeCity);
+  //   console.log(dest.placeName);
+  //   console.log(dest.placeCountry);
+  //   return dest.placeCity !== targetCity && dest.placeName !== targetPlace && dest.placeCountry !== targetCountry
+    
+  // });
+
+  
+  //remove booking from allbooking array
+  localStorage.setItem("userbooking", JSON.stringify(userBooking));
+
+  const emailIndex = allBookings.findIndex((dest)=>{
+    return (dest.email === email);
+  })
+
+ allBookings[emailIndex].bookings.splice(index,1);
+  console.log(allBookings);
+  localStorage.setItem("allBookings",JSON.stringify(allBookings));
+  
+
+
+
 }
 
 
