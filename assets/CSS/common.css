@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    
 }
 nav{
     width: 100%;
@@ -10,7 +11,7 @@ nav{
     justify-content: space-between;
     padding: .75rem 2rem;
     margin-bottom: 1rem;
-    background-color: rgba(0, 255, 255, 0.473);
+    background-color: #365486;
 }
 .right{
     display: flex;
@@ -24,4 +25,93 @@ nav{
 .menu a{
     text-decoration: none;
     font-size: 1.2rem;
+    color:#DCF2F1
+}
+
+.travelImage{
+    height:80px;
+    width:80px;
+    border-radius: 20px;
+}
+
+#loginBtn{
+    border-radius: 5px;
+    
+    color:#DCF2F1
+
+}
+
+.filterWrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+}
+.priceFilterWrapper{
+    display: flex;
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    gap:10px;
+}
+.priceFilterWrapper input{
+    height:25px;
+    
+}
+#priceFilterBtn{
+    padding:5px;
+    height: 25px;
+    border: none;
+    outline: none;
+    margin:5px;
+    background: #d0d0d0;
+    border-radius: 5px;
+    
+    
+}
+#priceFilterRmvBtn{
+    padding:5px;
+    height: 25px;
+    border: none;
+    outline: none;
+    margin:5px;
+    background: #d0d0d0;
+    border-radius: 5px;
+}
+
+.main-newPackage{
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+    margin: 15px auto 0px auto;
+    width:30vw;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    background-color: lightgray;
+    
+}
+.main-newPackage img{
+    height:200px;
+    width:100%;
+    border-radius: 8px;
+}
+.main-newPackage h2,h3,h4{
+    text-transform: capitalize;
+}
+
+.main-newPackage .bookingBtn{
+    border: none;
+    outline:none;
+    border-radius: 5px;
+    padding:7px;
+    background-color: #525E75;
+    color:white;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.main-newPackage p{
+   
 }

@@ -1,0 +1,38 @@
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.main-newPackage{
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+    margin: 15px auto 0px auto;
+    width:30vw;
+    
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    background-color: lightgray;
+    
+}
+.main-newPackage img{
+    height:200px;
+    width:100%;
+    border-radius: 8px;
+}
+.main-newPackage h2,h3,h4{
+    text-transform: capitalize;
+}
+
+.main-newPackage .bookingBtn{
+    border: none;
+    outline:none;
+    border-radius: 5px;
+    padding:7px;
+    background-color: #525E75;
+    color:white;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
