@@ -1,6 +1,8 @@
 const places = JSON.parse(localStorage.getItem("places")) || []; // getting packages added by admin from local storage
-const userBooking = JSON.parse(localStorage.getItem("userbooking")) || []; // getting booked packages added by user from local storage
 const allBookings = JSON.parse(localStorage.getItem("allBookings")) || [];
+
+const userBooking = JSON.parse(localStorage.getItem("userbooking")) || [];
+
 
 // getting total pages
 function getTotalPages(totalItems, itemsPerPage) {
@@ -13,6 +15,7 @@ let currentPage = 1; // Initial current page
 const packages = document.querySelector("#travelPackages");
 const loginBtn = document.querySelector("#loginBtn");
 const cartBtn = document.querySelector("#cartBtn");
+
 
 const validateUser = () => localStorage.getItem("isLoggedIn") === "true";
 // to change the button text content
@@ -44,7 +47,7 @@ cartBtn.addEventListener("click", () => {
   }
 });
 
-displayPackages(places);
+
 function displayPackages(payload) {
   packages.innerHTML = payload
     .map((place) => {

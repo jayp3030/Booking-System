@@ -1,20 +1,17 @@
 
-const userBooking = JSON.parse(localStorage.getItem("userbooking")) || [];
 const allBookings = JSON.parse(localStorage.getItem("allBookings")) || [];
 const email = localStorage.getItem("email");
-console.log(email); 
 
-console.log(allBookings);
+const userBooking = JSON.parse(localStorage.getItem("userbooking")) || [];
+
 
 //admin login/logout 
-
 const isUserLoggedIn = localStorage.getItem('isLoggedIn');
 const userLogInBtn = document.querySelector('#loginBtn');
 
 if (isUserLoggedIn) {
     userLogInBtn.textContent ='logout'
 }
-
 // logout admin
 userLogInBtn.addEventListener('click' , ()=>{
   
@@ -29,10 +26,9 @@ userLogInBtn.addEventListener('click' , ()=>{
 
 
 
+
 //all booking details display
-
 const bookedPackage = document.querySelector(".bookingReview");
-
 
 displayPackages(userBooking);
 
