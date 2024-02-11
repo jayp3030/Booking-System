@@ -16,9 +16,10 @@ const cartBtn = document.querySelector("#cartBtn");
 
 const validateUser = () => localStorage.getItem("isLoggedIn") === "true";
 // to change the button text content
+
 const updateLoginButtonText = () =>
   (loginBtn.textContent = validateUser() ? "logout" : "login");
-
+updateLoginButtonText();
 // logout user
 loginBtn.addEventListener("click", (e) => {
   if (e.target.textContent === "login") {
