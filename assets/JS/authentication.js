@@ -1,69 +1,83 @@
+// getting all the registered user
+const registeredUser = JSON.parse(localStorage.getItem("registeredUser")) || [];
 
-const registeredUser = JSON.parse(localStorage.getItem("registeredUser")) || []; 
-const registerForm = document.getElementById('registerForm');
+// registering user
+const registerForm = document.getElementById("registerForm");
+registerForm?.addEventListener("submit", (event) => {
+  event.preventDefault();
 
-// registering user 
-registerForm?.addEventListener('submit',(event)=>{
-    event.preventDefault();
-    const name = document.getElementById('username').value;
-    const email = document.getElementById('registerEmail').value;
-    const passWord = document.getElementById('registerPwd').value;
+  // getting input values
+  const name = document.getElementById("username").value;
+  const email = document.getElementById("registerEmail").value;
+  const passWord = document.getElementById("registerPwd").value;
 
-    const obj = {
-        name:name,
-        email:email,
-        passWord:passWord
-    }
+  const isExist = registeredUser.filter((curr) => {
+    return curr.email === email;
+  });
 
-    registeredUser.push(obj);
-    localStorage.setItem("registeredUser",JSON.stringify(registeredUser));
-    window.location.href="../html/login.html";
-})
+  if (isExist) {
+    alert("User already registered please login..");
+    location.href = "../html/login.html";
+    return;
+  }
+
+  const obj = {
+    name: name,
+    email: email,
+    passWord: passWord,
+  };
+
+  // adding new user to registered user
+  registeredUser.push(obj);
+  // updating local storage
+  localStorage.setItem("registeredUser", JSON.stringify(registeredUser));
+  // redirecting for login
+  window.location.href = "../html/login.html";
+});
 
 // user/admin login
 const loginFormData = document.getElementById("loginForm");
-loginFormData?.addEventListener('submit',(event)=>{
-    event.preventDefault();
-    const email = document.getElementById('emailId').value;
-    const passWord = document.getElementById('pwd').value;
-    const role =document.getElementById("role").value;
+loginFormData?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  // getting values
+  const role = document.getElementById("role").value;
+  const email = document.getElementById("emailId").value;
+  const passWord = document.getElementById("pwd").value;
 
-    if(role === "admin") {
-        validateAdmin(email,passWord);
-        return 
-    }
+  role === "admin"
+    ? validateAdmin(email, passWord)
+    : validateUser(email, passWord);
+});
 
-    const loggedinUser = registeredUser.find((user)=>{
-        return (user.email === email && user.passWord === passWord)
-     } )
-    
-     if (!loggedinUser) {
-        alert('User Not Registered or invalid credentials..')
-    //    window.location.href="../html/register.html";
-     }else{
-        localStorage.setItem("email",email);
-        localStorage.setItem("password",passWord);
-        localStorage.setItem('isLoggedIn','true');
-        alert('LoggedIn Successfully..')
-         window.location.href="../html/index.html";
-     }    
-})
+// funtion to validate the user credentials
+function validateUser(email, passWord) {
+  const loggedinUser = registeredUser.find((user) => {
+    return user.email === email && user.passWord === passWord;
+  });
 
+  if (!loggedinUser) {
+    alert("User Not Registered or invalid credentials..");
+  } else {
+    localStorage.setItem("email", email);
+    localStorage.setItem("isLoggedIn", "true");
+    alert("LoggedIn Successfully..");
+    window.location.href = "../html/index.html";
+  }
+}
 
 // funtion to validate the admin credentials
-function validateAdmin(email , password){
-    const admin = {
-        name : 'admin',
-        adminEmail : 'admin@gmail.com',
-        adminPass : 'admin@123'
-    }
+function validateAdmin(email, password) {
+  const admin = {
+    name: "admin",
+    adminEmail: "admin@gmail.com",
+    adminPass: "admin@123",
+  };
 
-    if (email === admin.adminEmail && password === admin.adminPass) {
-        localStorage.setItem('isAdminLoggedIn','true')
-        alert('Admin Logged In Successfully!')
-        location.href='../html/admin.html'
-    }
-    else{
-        alert('Invalid Credentials!')
-    }
+  if (email === admin.adminEmail && password === admin.adminPass) {
+    localStorage.setItem("isAdminLoggedIn", "true");
+    alert("Admin Logged In Successfully!");
+    location.href = "../html/admin.html";
+  } else {
+    alert("Invalid Credentials!");
+  }
 }
