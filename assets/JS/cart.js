@@ -45,9 +45,9 @@ function displayPackages(payload) {
       <p class="desc">${place.placeDescription}</p>
       <p class="highlights">${place.placeHighlights}</p>
       <h3 class="price">${place.packagePrice}</h3>
-      <h4 class="duration">${place.packageDays}</h4>
-      <h4 class="members">${place.members}</h4>
-      <h4 class="total">total = ${place.members * (place.packagePrice.split("/")[0] || place.packagePrice)}$</h4>
+      <h4 class="duration">${place.packageDays} days</h4>
+      <h4 class="members">${place.members} members</h4>
+      <h4 class="total">total = $${place.members * (place.packagePrice.split("/")[0] || place.packagePrice)}</h4>
       <button class="deleteButton" >Cancel Package</button>
       <button class="editPackageBtn" >Edit Package</button>
     </div>

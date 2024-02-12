@@ -178,7 +178,7 @@ function handleBooking(e) {
   const placeHighlights = parent.children[5].textContent;
   const placeDescription = parent.children[4].textContent;
   const packagePrice = parent.children[6].textContent.split('/')[0];
-  const packageDays = parent.children[7].textContent;
+  const packageDays = parent.children[7].textContent.split(" ")[0];
   const placeHighlightsArr = placeHighlights.split(",");
 
   // creating object of new booking
