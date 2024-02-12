@@ -7,7 +7,7 @@
 .from{
     width: 30vw;
     padding: 1rem;
-    border: 2px solid aqua;
+    border: 2px solid #525E75;
     border-radius: 5px;
 }
 #loginForm{
@@ -18,4 +18,8 @@
 form input, form select , form button{
     padding: .5rem 1rem;
     margin: .5rem 0;
+}
+#registerForm{
+    display: flex;
+    flex-direction:column;
 }

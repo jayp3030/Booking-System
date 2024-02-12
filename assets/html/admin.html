@@ -26,13 +26,13 @@
     <div class="formWrapper">
         <form action="" id="addPackageForm">
             <h3>Add New Destination Here</h3>
-            <input type="text" name="placeName" id="placeName" placeholder="place name">
-            <input type="text" name="placeCity" id="placeCity" placeholder="city name">
-            <input type="text" name="placeCountry" id="placeCountry" placeholder="add country">
-            <textarea id="placeHighlights" cols="30" rows="2" placeholder="place highlights"></textarea>
-            <textarea id="placeDescription" cols="30" rows="5" placeholder="place description"></textarea>
-            <input type="number" name="packagePrice" id="packagePrice" placeholder="add price/person">
-            <input type="text" name="packageDays" id="packageDays" placeholder="add number of days, eg.(5)">
+            <input type="text" name="placeName" id="placeName" placeholder="place name" required>
+            <input type="text" name="placeCity" id="placeCity" placeholder="city name" required>
+            <input type="text" name="placeCountry" id="placeCountry" placeholder="add country" required>
+            <textarea id="placeHighlights" cols="30" rows="2" placeholder="place highlights" required></textarea>
+            <textarea id="placeDescription" cols="30" rows="5" placeholder="place description" required></textarea>
+            <input type="number" name="packagePrice" id="packagePrice" placeholder="add price/person" required>
+            <input type="text" name="packageDays" id="packageDays" placeholder="add number of days, eg.(5)" required>
             <button id="adminFormBtn">Add Package</button>
         </form>
     </div>

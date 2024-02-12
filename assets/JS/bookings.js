@@ -30,10 +30,12 @@ function viewAllBookings(allBookings) {
   allBookings.forEach((user) => {
 
     const oneUsersBooking = document.createElement("div");
+    oneUsersBooking.className = 'mainUserWrapper';
     oneUsersBooking.id = `module_${cnt}`;
 
     if(user.bookings.length !== 0){
-      const userEmail = document.createElement("h4");
+      const userEmail = document.createElement("h2");
+      userEmail.style.textAlign = 'center';
       userEmail.textContent = `User Email : ${user.email} `;
       oneUsersBooking.append(userEmail);
     }
@@ -79,14 +81,15 @@ function deletePackage(event) {
   const targetCountry = targetPackage.children[3].textContent;
   const targetId = targetPackage.id;
 
-  const emailValue = targetPackage.parentNode.children[1].textContent;
-  document.getElementById(targetId).remove();
+  const emailValueArr = targetPackage.parentNode.children[0].textContent.split(':');
+  const emailValue = emailValueArr[emailValueArr.length - 1]
 
+  document.getElementById(targetId).remove();
   // finding booking index of user with specific email
-  const emailIndex = allBookings.findIndex((dest) => {
-    return dest.email === emailValue;
+  const emailIndex = allBookings.findIndex((user) => {
+    return user.email === emailValue.trim();
   });
-  
+
   // from that user getting index of targeted booking
   const index = allBookings[emailIndex].bookings.findIndex((dest) => {
     return (
