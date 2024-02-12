@@ -39,6 +39,9 @@ function viewAllBookings(allBookings) {
       userEmail.textContent = `User Email : ${user.email} `;
       oneUsersBooking.append(userEmail);
     }
+    else{
+      oneUsersBooking.style.display = 'none';
+    }
 
     const packageHTML = user.bookings.map((place, index) => `
       <div class="main-newPackage" id="package_${index}">

@@ -305,10 +305,18 @@ function deleteUser(event) {
     return user.name === targetName && user.email === targetEmail;
   })
 
+  // deleting it from registered user
   existedUsers.splice(index,1);
   localStorage.setItem('registeredUser' , JSON.stringify(existedUsers));
-  alert('user deleted successfully')
+  
+  const idx = allBookings.findIndex((user) => {
+    return  user.email === targetEmail
+  })
+  // as well as from in allbookings
+  allBookings.splice(index,1);
+  localStorage.setItem('allBookings' , JSON.stringify(allBookings));
 
+  alert('user deleted successfully')
   usersDiv.innerHTML = '';
   displayUsers(existedUsers);
 }

@@ -46,6 +46,8 @@ const validateUser = () => localStorage.getItem("isLoggedIn") === "true";
 const updateLoginButtonText = () =>
   (loginBtn.textContent = validateUser() ? "logout" : "login");
 updateLoginButtonText();
+
+
 // logout user
 loginBtn.addEventListener("click", (e) => {
   if (e.target.textContent === "login") {
@@ -57,6 +59,7 @@ loginBtn.addEventListener("click", (e) => {
   localStorage.removeItem("email");
   localStorage.removeItem("password");
   localStorage.removeItem("userbooking");
+  alert('User logged out...')
   updateLoginButtonText();
 });
 
