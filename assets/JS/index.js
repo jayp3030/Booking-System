@@ -220,13 +220,13 @@ function displayPackages(payload) {
       return `
       <div class="main-newPackage" id="package">
       <img src="../images/goa.jpg" />
-      <h2>${placeName}</h2>
-      <h3>${placeCity}</h3>
-      <h4>${placeCountry}</h4>
-      <p>${placeDescription}</p>
-      <p>${placeHighlights}</p>
-      <h3>${packagePrice}/person</h3>
-      <h4>${packageDays} days</h4>
+      <h2 class="place">${placeName}</h2>
+      <h3 class="city">${placeCity}</h3>
+      <h4 class="country">${placeCountry}</h4>
+      <p class="desc">${placeDescription}</p>
+      <p class="highlights">${placeHighlights}</p>
+      <h3 class="price">${packagePrice}/person</h3>
+      <h4 class="duration">${packageDays} days</h4>
       <button class="bookingBtn">Book Now</button>
       </div>
       `;

@@ -38,15 +38,15 @@ function displayPackages(payload) {
   bookedPackage.innerHTML = payload.map((place,index) => `
     <div class="main-newPackage" id="package_${index}">
       <img src="../images/goa.jpg">
-      <h2>${place.placeName}</h2>
-      <h3>${place.placeCity}</h3>
-      <h4>${place.placeCountry}</h4>
-      <p>${place.placeDescription}</p>
-      <p>${place.placeHighlights}</p>
-      <h3>${place.packagePrice}</h3>
-      <h4>${place.packageDays}</h4>
-      <h4>${place.members}</h4>
-      <h4>total = ${place.members * (place.packagePrice.split("/")[0] || place.packagePrice)}$</h4>
+      <h2 class="place">${place.placeName}</h2>
+      <h3 class="city">${place.placeCity}</h3>
+      <h4 class="country">${place.placeCountry}</h4>
+      <p class="desc">${place.placeDescription}</p>
+      <p class="highlights">${place.placeHighlights}</p>
+      <h3 class="price">${place.packagePrice}</h3>
+      <h4 class="duration">${place.packageDays}</h4>
+      <h4 class="members">${place.members}</h4>
+      <h4 class="total">total = ${place.members * (place.packagePrice.split("/")[0] || place.packagePrice)}$</h4>
       <button class="deleteButton" >Delete Package</button>
       <button class="editPackageBtn" >Edit Package</button>
     </div>
