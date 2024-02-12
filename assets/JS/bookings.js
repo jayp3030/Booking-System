@@ -39,7 +39,6 @@ function viewAllBookings(allBookings) {
         <h3>${place.packagePrice}</h3>
         <h4>${place.packageDays}</h4>
         <button class="deleteButton" id="deletePackageBtn">Delete Package</button>
-        <button id="editPackageBtn">Edit Package</button>
       </div>
     `).join('');
 
