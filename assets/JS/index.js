@@ -1,25 +1,43 @@
 const places = JSON.parse(localStorage.getItem("places")) || []; // getting packages added by admin from local storage
-const allBookings = JSON.parse(localStorage.getItem("allBookings")) || [];
+const allBookings = JSON.parse(localStorage.getItem("allBookings")) || []; // getting all booking from local storage
+const email = localStorage.getItem("email");
+const packages = document.querySelector("#travelPackages"); // selecting div where we want to show all card
 
-const userBooking = JSON.parse(localStorage.getItem("userbooking")) || [];
+const userBooking = getUserBooking(email) || [];
+// getting user booking details if exist in allBooking
+function getUserBooking(email) {
+  // very first time there is no booking in it so..
+  if (allBookings.length === 0) {
+    return {
+      email: "",
+      bookings: [],
+    };
+  }
 
+  // now if there is already booking for loggedIn user then getting it
+  const existedBooking = allBookings.filter((curr) => {
+    return curr.email === email;
+  });
 
-// getting total pages
-function getTotalPages(totalItems, itemsPerPage) {
-  return Math.ceil(totalItems / itemsPerPage);
+  // but if there is new user booking then ..
+  if (existedBooking.length === 0) {
+    return {
+      email: "",
+      bookings: [],
+    };
+  }
+
+  return existedBooking[0];
 }
-const itemsPerPage = 5; // Number of items per page
-const totalItems = places.length; // Total number of items
-let currentPage = 1; // Initial current page
 
-const packages = document.querySelector("#travelPackages");
-const loginBtn = document.querySelector("#loginBtn");
-const cartBtn = document.querySelector("#cartBtn");
+// setting value of userbooking to localstorage while page is loaded
+document.addEventListener("DOMContentLoaded", () => {
+  localStorage.setItem("userbooking", JSON.stringify(userBooking.bookings));
+});
 
-
-const validateUser = () => localStorage.getItem("isLoggedIn") === "true";
 // to change the button text content
-
+const loginBtn = document.querySelector("#loginBtn");
+const validateUser = () => localStorage.getItem("isLoggedIn") === "true";
 const updateLoginButtonText = () =>
   (loginBtn.textContent = validateUser() ? "logout" : "login");
 updateLoginButtonText();
@@ -33,10 +51,12 @@ loginBtn.addEventListener("click", (e) => {
   localStorage.removeItem("isLoggedIn");
   localStorage.removeItem("email");
   localStorage.removeItem("password");
+  localStorage.removeItem("userbooking");
   updateLoginButtonText();
 });
 
 // cart validation
+const cartBtn = document.querySelector("#cartBtn");
 cartBtn.addEventListener("click", () => {
   if (!validateUser()) {
     alert("Login First...");
@@ -47,103 +67,7 @@ cartBtn.addEventListener("click", () => {
   }
 });
 
-
-function displayPackages(payload) {
-  packages.innerHTML = payload
-    .map((place) => {
-      const {
-        placeName,
-        placeCity,
-        placeCountry,
-        placeDescription,
-        placeHighlights,
-        packagePrice,
-        packageDays,
-      } = place;
-
-      return `
-      <div class="main-newPackage" id="package">
-        <img src="../images/goa.jpg" />
-        <h2>${placeName}</h2>
-        <h3>${placeCity}</h3>
-        <h4>${placeCountry}</h4>
-        <p>${placeDescription}</p>
-        <p>${placeHighlights}</p>
-        <h3>${packagePrice}/person</h3>
-        <h4>${packageDays} days</h4>
-        <button class="bookingBtn">Book Now</button>
-      </div>
-    `;
-    })
-    .join("");
-}
-
-// we are adding buttons dynamically so if new buttons are added to the page then they don't have event listner so we have to delegate event
-// from body to that button..
-document.body.addEventListener("click", function (e) {
-  if (e.target.classList.contains("bookingBtn")) {
-    handleBooking(e);
-  }
-});
-// handle booking
-function handleBooking(e) {
-  // check thst user is loggein or not;
-  if (!validateUser()) {
-    alert("Login to book package");
-    location.href = "../html/login.html";
-    return;
-  }
-  const numOfMember = prompt("Enter the number of member");
-
-  const parent = e.target.parentNode;
-  
-  const placeName = parent.children[1].textContent;
-  const placeCity = parent.children[2].textContent;
-  const placeCountry = parent.children[3].textContent;
-  const placeHighlights = parent.children[5].textContent;
-  const placeDescription = parent.children[4].textContent;
-  const packagePrice = parent.children[6].textContent;
-  const packageDays = parent.children[7].textContent;
-  const placeHighlightsArr = placeHighlights.split(",");
-
-  const booking = {
-    placeName: placeName,
-    placeCity: placeCity,
-    placeCountry: placeCountry,
-    placeHighlights: placeHighlightsArr,
-    placeDescription: placeDescription,
-    packagePrice: packagePrice,
-    packageDays: packageDays,
-    members: numOfMember,
-  };
-
-  userBooking.push(booking);
-  localStorage.setItem("userbooking", JSON.stringify(userBooking));
-  console.log(userBooking);
-
-  const userWithBooking = {
-    email: localStorage.getItem("email"),
-    bookings: userBooking,
-  };
-
-  const existedUserIndex = allBookings.findIndex(
-    (curr) => curr.email === localStorage.getItem("email")
-  );
-
-  if (existedUserIndex === -1) {
-    console.log("not exist");
-    allBookings.push(userWithBooking);
-  } else {
-    console.log("exist");
-    console.log(allBookings[existedUserIndex].bookings);
-    allBookings[existedUserIndex].bookings = userBooking; // Update the existing user's bookings
-  }
-
-  localStorage.setItem("allBookings", JSON.stringify(allBookings));
-  console.log(allBookings);
-}
-
-// dynamic search functionality
+//--------------------------------------- dynamic search functionality
 const searchBar = document.querySelector("#search");
 let debounceSearchTimeout;
 searchBar.addEventListener("input", (e) => {
@@ -162,7 +86,7 @@ searchBar.addEventListener("input", (e) => {
   }, 500);
 });
 
-// Sort by functionality
+//------------------------------------------- Sort by functionality
 const sortBySelect = document.querySelector("#sortBySelect");
 sortBySelect.addEventListener("change", (e) => {
   const userInput = e.target.value;
@@ -183,7 +107,7 @@ sortBySelect.addEventListener("change", (e) => {
   displayItems(currentPage, itemsPerPage, sortedPackages);
 });
 
-// price filter
+//------------------------------------------- price filter
 const minPriceInput = document.querySelector("#minPrice");
 const maxPriceInput = document.querySelector("#maxPrice");
 const priceFilterBtn = document.querySelector("#priceFilterBtn");
@@ -212,7 +136,118 @@ function removeFilter() {
   displayItems(currentPage, itemsPerPage, places);
 }
 
-// -------------------------------- pagination ---------------------------------
+// we are adding buttons dynamically so if new buttons are added to the page
+// then they don't have event listner so we have to delegate event
+// from body to that button..
+document.body.addEventListener("click", function (e) {
+  if (e.target.classList.contains("bookingBtn")) {
+    handleBooking(e);
+  }
+});
+
+//---------------------- handle booking function
+function handleBooking(e) {
+  // check thst user is loggein or not;
+  if (!validateUser()) {
+    alert("Login to book package");
+    location.href = "../html/login.html";
+    return;
+  }
+  const numOfMember = prompt("Enter the number of member");
+
+  const parent = e.target.parentNode;
+
+  const placeName = parent.children[1].textContent;
+  const placeCity = parent.children[2].textContent;
+  const placeCountry = parent.children[3].textContent;
+  const placeHighlights = parent.children[5].textContent;
+  const placeDescription = parent.children[4].textContent;
+  const packagePrice = parent.children[6].textContent;
+  const packageDays = parent.children[7].textContent;
+  const placeHighlightsArr = placeHighlights.split(",");
+
+  const booking = {
+    placeName: placeName,
+    placeCity: placeCity,
+    placeCountry: placeCountry,
+    placeHighlights: placeHighlightsArr,
+    placeDescription: placeDescription,
+    packagePrice: packagePrice,
+    packageDays: packageDays,
+    members: numOfMember,
+  };
+
+  console.log(userBooking.bookings);
+  userBooking.bookings.push(booking);
+  localStorage.setItem("userbooking", JSON.stringify(userBooking.bookings));
+
+  const userWithBooking = {
+    email: localStorage.getItem("email"),
+    bookings: userBooking.bookings,
+  };
+
+  const existedUserIndex = allBookings.findIndex(
+    (curr) => curr.email === localStorage.getItem("email")
+  );
+
+  if (existedUserIndex === -1) {
+    console.log("not exist");
+    allBookings.push(userWithBooking);
+  } else {
+    console.log("exist");
+    console.log(allBookings[existedUserIndex].bookings);
+    allBookings[existedUserIndex].bookings = userBooking.bookings; // Update the existing user's bookings
+  }
+
+  localStorage.setItem("allBookings", JSON.stringify(allBookings));
+  console.log(allBookings);
+}
+
+//-------------------------- function which dynamically generate package card to display
+function displayPackages(payload) {
+  packages.innerHTML = payload
+    .map((place) => {
+      const {
+        placeName,
+        placeCity,
+        placeCountry,
+        placeDescription,
+        placeHighlights,
+        packagePrice,
+        packageDays,
+      } = place;
+
+      return `
+      <div class="main-newPackage" id="package">
+      <img src="../images/goa.jpg" />
+      <h2>${placeName}</h2>
+      <h3>${placeCity}</h3>
+      <h4>${placeCountry}</h4>
+      <p>${placeDescription}</p>
+      <p>${placeHighlights}</p>
+      <h3>${packagePrice}/person</h3>
+      <h4>${packageDays} days</h4>
+      <button class="bookingBtn">Book Now</button>
+      </div>
+      `;
+    })
+    .join("");
+}
+
+// --------------------------------------------- pagination
+
+// getting total pages
+const itemsPerPage = 5; // Number of items per page
+const totalItems = places.length; // Total number of items
+let currentPage = 1; // Initial current page
+const pages = getTotalPages(totalItems, itemsPerPage);
+
+function getTotalPages(totalItems, itemsPerPage) {
+  return Math.ceil(totalItems / itemsPerPage);
+}
+
+createNavigationButtons(pages);
+displayItems(currentPage, itemsPerPage, places);
 
 // dynamically create buttons as per requirments
 function createNavigationButtons(totalPages) {
@@ -222,12 +257,14 @@ function createNavigationButtons(totalPages) {
   for (let i = 1; i <= totalPages; i++) {
     const button = document.createElement("button");
     button.textContent = i;
+    // attaching event listner to each btn
     button.addEventListener("click", () => {
       navigateToPage(i);
     });
     navigationContainer.appendChild(button);
   }
 }
+
 // display items per page
 function displayItems(pageNumber, itemsPerPage, arrayToShow) {
   const startIndex = (pageNumber - 1) * itemsPerPage;
@@ -238,15 +275,10 @@ function displayItems(pageNumber, itemsPerPage, arrayToShow) {
   displayPackages(itemsToShow);
 }
 
-displayItems(currentPage, itemsPerPage, places);
-createNavigationButtons(getTotalPages(totalItems, itemsPerPage));
-
 // Function to handle pagination navigation
 function navigateToPage(pageNumber) {
   // Validate pageNumber
-  if (pageNumber < 1 || pageNumber > getTotalPages(totalItems, itemsPerPage)) {
-    return;
-  }
+  if (pageNumber < 1 || pageNumber > pages) return;
 
   // Update current page
   currentPage = pageNumber;

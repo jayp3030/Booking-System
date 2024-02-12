@@ -1,20 +1,26 @@
-const allBookings = JSON.parse(localStorage.getItem("allBookings"));
+const allBookings = JSON.parse(localStorage.getItem("allBookings")) || [];
+const isAdminLoggedIn = localStorage.getItem("isAdminLoggedIn");
 
+document.addEventListener("DOMContentLoaded", () => {
+  if (!isAdminLoggedIn) {
+    alert('you must login first');
+    location.href = '../html/login.html'
+  }
+});
 
+// function to display all booking to the admin
+
+const userAllBookings = document.querySelector(".allBooking");
 viewAllBookings(allBookings);
-
 function viewAllBookings(allBookings) {
-  const userAllBookings = document.querySelector(".allBooking");
-  console.log("hello");
-
   let cnt = 1;
-  for (user of allBookings) {
+
+  allBookings.forEach((user) => {
     const oneUsersBooking = document.createElement("div");
     oneUsersBooking.id = `module_${cnt}`;
 
-    console.log(user.bookings);
     const userEmail = document.createElement("h4");
-    userEmail.textContent = "User Email : ";
+    userEmail.textContent = `User Email : ${user.email} `;
     oneUsersBooking.append(userEmail);
 
     const Email = document.createElement("h5");
@@ -22,84 +28,35 @@ function viewAllBookings(allBookings) {
     Email.innerText = user.email;
     oneUsersBooking.append(Email);
 
-    adminPageFunction(user.bookings);
+    const packageHTML = user.bookings.map((place, index) => `
+      <div class="main-newPackage" id="package_${index}">
+        <img src="../images/goa.jpg">
+        <h3>${place.placeCity}</h3>
+        <h2>${place.placeName}</h2>
+        <h4>${place.placeCountry}</h4>
+        <p>${place.placeDescription}</p>
+        <p>${place.placeHighlights}</p>
+        <h3>${place.packagePrice}</h3>
+        <h4>${place.packageDays}</h4>
+        <button class="deleteButton" id="deletePackageBtn">Delete Package</button>
+      </div>
+    `).join('');
 
-    function adminPageFunction(payload) {
-      var i = 1;
-      for (let place of payload) {
-        const newPackage = document.createElement("div");
-        const newPackageImg = document.createElement("img");
-        newPackageImg.src = "../images/goa.jpg";
-
-        const placeName = document.createElement("h2");
-        const placeCity = document.createElement("h3");
-        const placeCountry = document.createElement("h4");
-
-        newPackage.className = "main-newPackage";
-
-        newPackage.id = `package_${i}`;
-        i++;
-        newPackage.append(newPackageImg);
-
-        placeName.textContent = place.placeName;
-        newPackage.append(placeName);
-        placeCity.textContent = place.placeCity;
-        newPackage.append(placeCity);
-        placeCountry.textContent = place.placeCountry;
-        newPackage.append(placeCountry);
-        const desc = document.createElement("p");
-        desc.textContent = place.placeDescription;
-        newPackage.append(desc);
-        const highlights = document.createElement("p");
-        highlights.textContent = `${place.placeHighlights}`;
-        newPackage.append(highlights);
-        const price = document.createElement("h3");
-        price.textContent = place.packagePrice;
-        newPackage.append(price);
-        const duration = document.createElement("h4");
-        duration.textContent = place.packageDays;
-        newPackage.append(duration);
-
-        const deleteBtn = document.createElement("button");
-        deleteBtn.textContent = "Delete Package";
-        deleteBtn.id = `deletePackageBtn`;
-        deleteBtn.className = "deleteButton";
-        newPackage.append(deleteBtn);
-
-        
-        oneUsersBooking.appendChild(newPackage);
-      }
-    }
+    oneUsersBooking.innerHTML += packageHTML;
 
     userAllBookings.appendChild(oneUsersBooking);
     cnt++;
-  }
+  });
 }
 
-// var buttons = document.querySelectorAll(".deleteButton");
-
-// buttons.forEach(function (button) {
-//   button.addEventListener("click", function (event) {
-//     alert("Are you sure to delete it?");
-
-//     deletePackage(event);
-//   });
-// });
-
 document.body.addEventListener("click", function (e) {
-  if (e.target.classList.contains("editPackageBtn")) {
-    const confirmation = confirm("Are you sure to Edit it?");
-    if (confirmation) {
-      editPackage(e);
-      return;
-    }
-  }
   if (e.target.classList.contains("deleteButton")) {
-    const confirmation = confirm("Are you sure to delete it?");
-    if (confirmation) {
-      deletePackage(e);
-      return;
-    }
+    const confirmation = confirm('are you sure ?');
+    if (confirmation) deletePackage(e);
+    return;
+  }
+  if (e.target.classList.contains('editPackageBtn')) {
+     // for edit here
   }
 });
 
@@ -111,24 +68,22 @@ function deletePackage(event) {
   const targetId = targetPackage.id;
 
   const emailValue = targetPackage.parentNode.children[1].textContent;
-
   document.getElementById(targetId).remove();
 
+  // finding booking index of user with specific email
   const emailIndex = allBookings.findIndex((dest) => {
     return dest.email === emailValue;
   });
-
+  
+  // from that user getting index of targeted booking
   const index = allBookings[emailIndex].bookings.findIndex((dest) => {
     return (
-      dest.placeCity === targetPlace &&
-      dest.placeName === targetCity &&
-      dest.placeCountry === targetCountry
-    );
+      dest.placeCity === targetPlace && dest.placeName === targetCity && dest.placeCountry === targetCountry);
   });
-
+ 
+  // deleting targeted package selected by admin
   allBookings[emailIndex].bookings.splice(index, 1);
-
   localStorage.setItem("allBookings", JSON.stringify(allBookings));
+  userAllBookings.innerHTML = '';
+  viewAllBookings(allBookings);
 }
-
-
