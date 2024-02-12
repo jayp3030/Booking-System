@@ -9,6 +9,9 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // function to display all booking to the admin
+if (isAdminLoggedIn) {
+  adminLoginBtn.textContent = "logout";
+}
 
 const userAllBookings = document.querySelector(".allBooking");
 viewAllBookings(allBookings);
@@ -19,25 +22,24 @@ function viewAllBookings(allBookings) {
     const oneUsersBooking = document.createElement("div");
     oneUsersBooking.id = `module_${cnt}`;
 
-    const userEmail = document.createElement("h4");
-    userEmail.textContent = `User Email : ${user.email} `;
-    oneUsersBooking.append(userEmail);
-
-    const Email = document.createElement("h5");
-    Email.className = "emailId";
-    Email.innerText = user.email;
-    oneUsersBooking.append(Email);
+    if(user.bookings.length !== 0){
+      const userEmail = document.createElement("h4");
+      userEmail.textContent = `User Email : ${user.email} `;
+      oneUsersBooking.append(userEmail);
+    }
+    
+    
 
     const packageHTML = user.bookings.map((place, index) => `
       <div class="main-newPackage" id="package_${index}">
         <img src="../images/goa.jpg">
-        <h3>${place.placeCity}</h3>
-        <h2>${place.placeName}</h2>
-        <h4>${place.placeCountry}</h4>
-        <p>${place.placeDescription}</p>
-        <p>${place.placeHighlights}</p>
-        <h3>${place.packagePrice}</h3>
-        <h4>${place.packageDays}</h4>
+        <h2 class="place">${place.placeName}</h2>
+        <h3 class="city">${place.placeCity}</h3>
+        <h4 class="country">${place.placeCountry}</h4>
+        <p class="desc">${place.placeDescription}</p>
+        <p class="highlights">${place.placeHighlights}</p>
+        <h3 class="price">${place.packagePrice}</h3>
+        <h4 class="duration">${place.packageDays}</h4>
         <button class="deleteButton" id="deletePackageBtn">Delete Package</button>
       </div>
     `).join('');
@@ -62,8 +64,8 @@ document.body.addEventListener("click", function (e) {
 
 function deletePackage(event) {
   const targetPackage = event.target.parentNode;
-  const targetCity = targetPackage.children[1].textContent;
-  const targetPlace = targetPackage.children[2].textContent;
+  const targetCity = targetPackage.children[2].textContent;
+  const targetPlace = targetPackage.children[1].textContent;
   const targetCountry = targetPackage.children[3].textContent;
   const targetId = targetPackage.id;
 

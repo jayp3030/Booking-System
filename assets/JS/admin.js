@@ -33,13 +33,13 @@ function adminPageDisplay(payload) {
   adminPagePackages.innerHTML = payload.map((place, index) => `
     <div class="main-newPackage" id="package_${index}">
         <img src="../images/goa.jpg">
-        <h2>${place.placeName}</h2>
-        <h3>${place.placeCity}</h3>
-        <h4>${place.placeCountry}</h4>
-        <p>${place.placeDescription}</p>
-        <p>${place.placeHighlights}</p>
-        <h3>${place.packagePrice}</h3>
-        <h4>${place.packageDays}</h4>
+        <h2 class="place">${place.placeName}</h2>
+        <h3 class="city">${place.placeCity}</h3>
+        <h4 class="country">${place.placeCountry}</h4>
+        <p class="desc">${place.placeDescription}</p>
+        <p class="highlights">${place.placeHighlights}</p>
+        <h3 class="price">${place.packagePrice}/person</h3>
+        <h4 class="duration">${place.packageDays} days</h4>
         <button class="deleteButton">Delete Package</button>
         <button class="editPackageBtn">Edit Package</button>
     </div>
@@ -165,6 +165,8 @@ function deletePackage(event) {
 const targetedCardObj = {}
 function setForm(event){
   event.preventDefault();
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
   console.log('kkkk');
   const targetPackage = event.target.parentNode;
   const targetCity = targetPackage.children[2].textContent;
@@ -172,7 +174,7 @@ function setForm(event){
   const targetCountry = targetPackage.children[3].textContent;
   const targetHighL = targetPackage.children[4].textContent;
   const targetDesc = targetPackage.children[5].textContent;
-  const targetPrice = targetPackage.children[6].textContent;
+  const targetPrice = targetPackage.children[6].textContent.split('/')[0];
   const targetDays = targetPackage.children[7].textContent;
   const targetId = targetPackage.id;
 
@@ -187,7 +189,7 @@ function setForm(event){
   document.querySelector("#packagePrice").value = targetPrice;
   document.querySelector("#packageDays").value = targetDays;
   adminFormBtn.textContent='Edit package'
-  location.protocol = 'top';
+  
 }
 
 adminFormBtn.addEventListener('click' , (e) =>{
