@@ -49,24 +49,12 @@ function displayPackages(payload) {
       <h4>${place.members}</h4>
       <h4>total = ${place.members * (place.packagePrice.split("/")[0] || place.packagePrice)}$</h4>
       <button class="deleteButton" >Delete Package</button>
-      <button id="editPackageBtn" >Edit Package</button>
+      <button class="editPackageBtn" >Edit Package</button>
     </div>
   `).join('');
 }
 
-document.body.addEventListener("click", function (e) {
-  if (e.target.classList.contains("deleteButton")) {
-    const confirmation = confirm('are you sure to delete it ?');
-    if (confirmation) deletePackage(e);
-    return;
-  }
-  if (e.target.classList.contains('editPackageBtn')) {
-     // for edit here
-     const confirmation = confirm('are you sure to edit it ?');
-    if (confirmation) ;
-    return;
-  }
-});
+
 
 // ------------------------- delete package function
 
@@ -79,7 +67,7 @@ function deletePackage(event) {
   const targetId = targetPackage.id;
   document.getElementById(targetId).remove();
 
-  // finding index of deleted package
+  //remove booking from userBooking array
   const index = userBooking.findIndex((dest) => {
     return (
       dest.placeCity === targetCity &&
@@ -87,45 +75,71 @@ function deletePackage(event) {
       dest.placeCountry === targetCountry
     );
   });
-  // deleting it from original user bookings array
-  userBooking.splice(index, 1); 
-
+  console.log(index);
+  userBooking.splice(index, 1);
   localStorage.setItem("userbooking", JSON.stringify(userBooking));
-  // finding index of loggedin user from all booking array
   const emailIndex = allBookings.findIndex((dest) => {
     return dest.email === email;
   });
-  // deleting booking from all booking array too..
+
   allBookings[emailIndex].bookings.splice(index, 1);
-  // setting updated all bookings to local storage
+  console.log(allBookings);
   localStorage.setItem("allBookings", JSON.stringify(allBookings));
 }
 
+//-------------------------------------edit/delete eventlistener with function call
 
+document.body.addEventListener("click", function (e) {
+  if (e.target.classList.contains("editPackageBtn")) {
+    const confirmation = confirm("Are you sure to Edit it?");
+    if (confirmation) {
+      const updatedMembers = prompt("Enter the No. of Passengers: ");
+      if (updatedMembers <= 0 || updatedMembers === null || isNaN(updatedMembers)) {
+        alert('Enter valid number of members')
+        updatedMembers = prompt("Enter the No. of Passengers: ");
+      }
+      editPackage(e, updatedMembers);
+      return;
+    }
+  }
+  if (e.target.classList.contains("deleteButton")) {
+    const confirmation = confirm("Are you sure to delete it?");
+    if (confirmation) {
+      deletePackage(e);
+      return;
+    }
+  }
+});
 
+//-----------------------------------------Edit button functionality
+function editPackage(event, updatedMembers) {
+  const targetPackage = event.target.parentNode;
+  const targetMembers = targetPackage.children[7].textContent;
+  const targetCity = targetPackage.children[2].textContent;
+  const targetPlace = targetPackage.children[1].textContent;
+  const targetCountry = targetPackage.children[3].textContent;
+  const targetId = targetPackage.id;
+  console.log(targetMembers);
+  targetMembers.textContent = `No. of Passengers are: ${updatedMembers}`;
 
+  const index = userBooking.findIndex((dest) => {
+    return (
+      dest.placeCity === targetCity &&
+      dest.placeName === targetPlace &&
+      dest.placeCountry === targetCountry
+    );
+  });
+  console.log(userBooking[index].members);
+  userBooking[index].members = updatedMembers;
+  localStorage.setItem("userbooking", JSON.stringify(userBooking));
+  bookedPackage.innerHTML = "";
+  displayPackages(userBooking);
+  ///edit booking from all booking array
+  const emailIndex = allBookings.findIndex((dest) => {
+    return dest.email === email;
+  });
+  allBookings[emailIndex].bookings[index].members = updatedMembers;
+  console.log(allBookings);
+  localStorage.setItem("allBookings", JSON.stringify(allBookings));
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const filteredPackages = userBooking.filter((dest) => {
-//   console.log(dest.placeCity);
-//   console.log(dest.placeName);
-//   console.log(dest.placeCountry);
-//   return dest.placeCity !== targetCity && dest.placeName !== targetPlace && dest.placeCountry !== targetCountry
-// });
-//remove booking from allbooking array

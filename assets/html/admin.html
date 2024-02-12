@@ -10,7 +10,7 @@
 <body>
     <nav>
         <div class="logo">
-            <h2>T.com</h3>
+            <h3>T.com</h3>
         </div>
         <div class="right">
             <div class="menu">
@@ -22,7 +22,7 @@
             </div>
         </div>
     </nav>
-    <h1>Welcome Admin!</h1>
+    <h1 style="text-align: center; margin: 1rem 0;">Welcome Admin!</h1>
     <div class="formWrapper">
         <form action="" id="addPackageForm">
             <h3>Add New Destination Here</h3>
@@ -33,16 +33,19 @@
             <textarea id="placeDescription" cols="30" rows="5" placeholder="place description"></textarea>
             <input type="number" name="packagePrice" id="packagePrice" placeholder="add price/person">
             <input type="text" name="packageDays" id="packageDays" placeholder="add number of days, eg.(5)">
-            <button id="addPackage">Add Package</button>
+            <button id="adminFormBtn">Add Package</button>
         </form>
     </div>
     <div id="places">
-        <h3>See Existing packages Here</h3>
     </div>
+    <h1 style="text-align: center; margin: 1rem 0;">See Existing packages Here</h1>
     <div class="adminPagePackages">
-        
+    </div>
+    <h1 style="text-align: center; margin: 1rem 0;">See Existing Users Here</h1>
+    <div class="users">
     </div>
     <script src="../JS/admin.js"></script>
     <script src="../JS/authentication.js"></script>
+    
 </body>
 </html>

@@ -85,7 +85,7 @@ searchBar.addEventListener("input", (e) => {
         place.placeCity.toLowerCase().includes(userInput)
       );
     });
-
+    currentPage = 1;
     packages.innerHTML = "";
     displayItems(currentPage, itemsPerPage, searchedPackage);
   }, 500);
@@ -108,6 +108,7 @@ sortBySelect.addEventListener("change", (e) => {
     return;
   }
   console.log(sortedPackages);
+  currentPage = 1;
   packages.innerHTML = "";
   displayItems(currentPage, itemsPerPage, sortedPackages);
 });
@@ -115,10 +116,13 @@ sortBySelect.addEventListener("change", (e) => {
 //------------------------------------------- price filter
 const minPriceInput = document.querySelector("#minPrice");
 const maxPriceInput = document.querySelector("#maxPrice");
-const priceFilterBtn = document.querySelector("#priceFilterBtn");
+// const priceFilterBtn = document.querySelector("#priceFilterBtn");
 const priceFilterRmvBtn = document.querySelector("#priceFilterRmvBtn");
 
-priceFilterBtn.addEventListener("click", handleFilter);
+// minPriceInput.addEventListener('input' , handleFilter)
+// priceFilterBtn.addEventListener("click", handleFilter);
+
+maxPriceInput.addEventListener('input' , handleFilter)
 priceFilterRmvBtn.addEventListener("click", removeFilter);
 
 function handleFilter() {
@@ -138,6 +142,7 @@ function removeFilter() {
   minPriceInput.value = "";
   maxPriceInput.value = "";
   packages.innerHTML = "";
+  currentPage = 1;
   displayItems(currentPage, itemsPerPage, places);
 }
 
@@ -159,6 +164,11 @@ function handleBooking(e) {
     return;
   }
   const numOfMember = prompt("Enter the number of member");
+  
+  if (numOfMember <= 0 || numOfMember === null || isNaN(numOfMember)) {
+    alert('Enter valid number of members')
+    numOfMember = prompt("Enter the number of member");
+  }
 
   const parent = e.target.parentNode;
 
@@ -167,7 +177,7 @@ function handleBooking(e) {
   const placeCountry = parent.children[3].textContent;
   const placeHighlights = parent.children[5].textContent;
   const placeDescription = parent.children[4].textContent;
-  const packagePrice = parent.children[6].textContent;
+  const packagePrice = parent.children[6].textContent.split('/')[0];
   const packageDays = parent.children[7].textContent;
   const placeHighlightsArr = placeHighlights.split(",");
 
@@ -256,8 +266,8 @@ function createNavigationButtons(totalPages) {
     const button = document.createElement("button");
     button.textContent = i;
     // attaching event listner to each btn
-    button.addEventListener("click", () => {
-      navigateToPage(i);
+    button.addEventListener("click", (e) => {
+      navigateToPage(i , e);
     });
     navigationContainer.appendChild(button);
   }
@@ -275,13 +285,13 @@ function displayItems(pageNumber, itemsPerPage, arrayToShow) {
 }
 
 // Function to handle pagination navigation
-function navigateToPage(pageNumber) {
+function navigateToPage(pageNumber , e) {
   // Validate pageNumber
   if (pageNumber < 1 || pageNumber > pages) return;
 
   // Update current page
   currentPage = pageNumber;
-
+  e.target.classList.toggle()
   // Display items for the selected page
   displayItems(currentPage, itemsPerPage, places);
 }
