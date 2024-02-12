@@ -101,7 +101,7 @@ sortBySelect.addEventListener("change", (e) => {
   if (userInput.toLowerCase() === "price") {
     sortedPackages.sort((a, b) => a.packagePrice - b.packagePrice);
   } else if (userInput.toLowerCase() === "days") {
-    sortedPackages.sort((a, b) => a.packageDays - b.packageDays);
+    sortedPackages.sort((a, b) => parseInt(a.packageDays) - parseInt(b.packageDays));
   } else if (userInput.toLowerCase() === "default") {
     packages.innerHTML = "";
     displayItems(currentPage, itemsPerPage, places);
@@ -192,7 +192,7 @@ function handleBooking(e) {
     packageDays: packageDays,
     members: numOfMember,
   };
-
+  console.log(booking);
   // adding new booking to userbooking.
   userBooking.bookings.push(booking);
   // updating the userbookings
@@ -291,7 +291,6 @@ function navigateToPage(pageNumber , e) {
 
   // Update current page
   currentPage = pageNumber;
-  e.target.classList.toggle()
   // Display items for the selected page
   displayItems(currentPage, itemsPerPage, places);
 }

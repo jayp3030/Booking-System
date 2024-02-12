@@ -12,6 +12,14 @@ if (isAdminLoggedIn) {
   adminLoginBtn.textContent = "logout";
 }
 
+// logout admin
+adminLoginBtn.addEventListener("click", () => {
+  if (adminLoginBtn.textContent === "logout") {
+    localStorage.removeItem("isAdminLoggedIn");
+    alert("Admin Logged out..");
+    location.href = "../html/index.html";
+  }
+});
 
 // function to display all booking to the admin
 const userAllBookings = document.querySelector(".allBooking");
@@ -38,7 +46,9 @@ function viewAllBookings(allBookings) {
         <h4 class="country">${place.placeCountry}</h4>
         <p class="desc">${place.placeDescription}</p>
         <p class="highlights">${place.placeHighlights}</p>
-        <h3 class="price">${place.packagePrice}</h3>
+        <h3 class="price">$${place.packagePrice}/person</h3>
+        <h3 class="members">${place.members} members</h3>
+        <h3 class="cost">Total: $${+place.packagePrice.split('/')[0]*+place.members}</h3>
         <h4 class="duration">${place.packageDays}</h4>
         <button class="deleteButton" id="deletePackageBtn">Delete Package</button>
       </div>

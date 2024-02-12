@@ -48,7 +48,7 @@ function displayPackages(payload) {
       <h4 class="duration">${place.packageDays}</h4>
       <h4 class="members">${place.members}</h4>
       <h4 class="total">total = ${place.members * (place.packagePrice.split("/")[0] || place.packagePrice)}$</h4>
-      <button class="deleteButton" >Delete Package</button>
+      <button class="deleteButton" >Cancel Package</button>
       <button class="editPackageBtn" >Edit Package</button>
     </div>
   `).join('');
