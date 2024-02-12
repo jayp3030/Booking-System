@@ -1,5 +1,6 @@
-const allBookings = JSON.parse(localStorage.getItem("allBookings")) || [];
-const email = localStorage.getItem("email");
+const allBookings = JSON.parse(localStorage.getItem("allBookings")) || []; // getting all booking from local storage
+const email = localStorage.getItem("email");  // getting loggedIn users email
+
 // getting logged in user's bookings from allbooking to show in cart
 const userBooking = JSON.parse(localStorage.getItem('userbooking')) || []; 
 
@@ -53,16 +54,7 @@ function displayPackages(payload) {
   `).join('');
 }
 
-document.body.addEventListener("click", function (e) {
-  if (e.target.classList.contains("deleteButton")) {
-    const confirmation = confirm('are you sure ?');
-    if (confirmation) deletePackage(e);
-    return;
-  }
-  if (e.target.classList.contains('editPackageBtn')) {
-     // for edit here
-  }
-});
+
 
 // ------------------------- delete package function
 
@@ -93,27 +85,19 @@ function deletePackage(event) {
   allBookings[emailIndex].bookings.splice(index, 1);
   console.log(allBookings);
   localStorage.setItem("allBookings", JSON.stringify(allBookings));
-
-  // const filteredPackages = userBooking.filter((dest) => {
-  //   console.log(dest.placeCity);
-  //   console.log(dest.placeName);
-  //   console.log(dest.placeCountry);
-  //   return dest.placeCity !== targetCity && dest.placeName !== targetPlace && dest.placeCountry !== targetCountry
-
-  // });
-
-
-  //remove booking from allbooking array
-
 }
 
-/////                    edit/delete eventlistener with function call
+//-------------------------------------edit/delete eventlistener with function call
 
 document.body.addEventListener("click", function (e) {
   if (e.target.classList.contains("editPackageBtn")) {
     const confirmation = confirm("Are you sure to Edit it?");
     if (confirmation) {
       const updatedMembers = prompt("Enter the No. of Passengers: ");
+      if (updatedMembers <= 0 || updatedMembers === null || isNaN(updatedMembers)) {
+        alert('Enter valid number of members')
+        updatedMembers = prompt("Enter the No. of Passengers: ");
+      }
       editPackage(e, updatedMembers);
       return;
     }
@@ -127,7 +111,7 @@ document.body.addEventListener("click", function (e) {
   }
 });
 
-//////            Edit button functionality
+//-----------------------------------------Edit button functionality
 function editPackage(event, updatedMembers) {
   const targetPackage = event.target.parentNode;
   const targetMembers = targetPackage.children[7].textContent;
@@ -159,40 +143,3 @@ function editPackage(event, updatedMembers) {
   localStorage.setItem("allBookings", JSON.stringify(allBookings));
 }
 
-// we are adding buttons dynamically so if new buttons are added to the page then they don't have event listner so we have to delegate event
-// from body to that button..
-// document.body.addEventListener("click", function (e) {
-//   if (e.target.classList.contains("bookingBtn")) {
-//     handleBooking(e);
-//   }
-// });
-
-// function displayPackages(payload) {
-//   packages.innerHTML = payload
-//     .map((place) => {
-//       const {
-//         placeName,
-//         placeCity,
-//         placeCountry,
-//         placeDescription,
-//         placeHighlights,
-//         packagePrice,
-//         packageDays,
-//       } = place;
-
-//       return `
-//       <div class="main-newPackage" id="package">
-//         <img src="../images/goa.jpg" />
-//         <h2>${placeName}</h2>
-//         <h3>${placeCity}</h3>
-//         <h4>${placeCountry}</h4>
-//         <p>${placeDescription}</p>
-//         <p>${placeHighlights}</p>
-//         <h3>${packagePrice}/person</h3>
-//         <h4>${packageDays} days</h4>
-//         <button class="bookingBtn">Book Now</button>
-//       </div>
-//     `;
-//     })
-//     .join("");
-// }

@@ -1,6 +1,6 @@
-const packageForm = document.querySelector("#addPackageForm");
 const placesDiv = document.querySelector("#places");
 const places = JSON.parse(localStorage.getItem("places")) || [];
+const existedUsers = JSON.parse(localStorage.getItem("registeredUser")) || [];
 const allBookings = JSON.parse(localStorage.getItem("allBookings"));
 
 const adminPagePackages = document.querySelector(".adminPagePackages");
@@ -9,13 +9,13 @@ const adminLoginBtn = document.querySelector("#adminLoginBtn");
 
 document.addEventListener("DOMContentLoaded", () => {
   if (!isAdminLoggedIn) {
-    alert('you must login first');
-    location.href = '../html/login.html'
+    alert("you must login first");
+    location.href = "../html/login.html";
   }
 });
 
 if (isAdminLoggedIn) {
-  adminLoginBtn.textContent ="logout";
+  adminLoginBtn.textContent = "logout";
 }
 
 // logout admin
@@ -27,7 +27,7 @@ adminLoginBtn.addEventListener("click", () => {
   }
 });
 
-
+// functions to display pacages added by admin
 adminPageDisplay(places);
 function adminPageDisplay(payload) {
   adminPagePackages.innerHTML = payload.map((place, index) => `
@@ -46,24 +46,28 @@ function adminPageDisplay(payload) {
 `).join('');
 }
 
-const adminFormBtn =document.querySelector("#adminFormBtn")
+// selecting form button
+const adminFormBtn = document.querySelector("#adminFormBtn");
+// selecting form
+const packageForm = document.querySelector("#addPackageForm");
 packageForm.addEventListener("submit", (e) => {
-  if(adminFormBtn.textContent.toLowerCase() === "add package" ){
+  if (adminFormBtn.textContent.toLowerCase() === "add package") {
     addPackage(e);
     clearForm();
     return;
   }
-  if(adminFormBtn.textContent.toLowerCase() === "edit package" ){
-    editPackage(e);
-    adminFormBtn.textContent = "Add package"
-    return;
-  }
-    
 });
 
-function addPackage(e){
+// function to add package
+function addPackage(e) {
   e.preventDefault();
-  adminFormBtn.textContent = "Add package";
+
+  // validating that admin is loggedIn or not
+  if (!isAdminLoggedIn) {
+    alert("LogIn first to create an package");
+    return;
+  }
+
   // getting all input value from form
   const placeName = document.querySelector("#placeName").value;
   const placeCity = document.querySelector("#placeCity").value;
@@ -76,10 +80,6 @@ function addPackage(e){
   // converting string of highlights to array
   const placeHighlightsArr = placeHighlights.toLowerCase().split(",");
 
-  if (!isAdminLoggedIn) {
-    alert("LogIn first to create an package");
-    return;
-  }
   // validating user inputs
   if (
     !placeName ||
@@ -94,6 +94,7 @@ function addPackage(e){
     return;
   }
 
+  // creating object of package
   const package = {
     placeName: placeName,
     placeCity: placeCity,
@@ -103,16 +104,18 @@ function addPackage(e){
     packagePrice: packagePrice,
     packageDays: packageDays,
   };
-  console.log(package);
 
   // adding package to the places array and storing it in localstorage
   places.push(package);
   localStorage.setItem("places", JSON.stringify(places));
   alert("Package added Successfully !");
-  adminPagePackages.innerHTML ='';
+
+  // updating card display
+  adminPagePackages.innerHTML = "";
   adminPageDisplay(places);
 }
 
+// function to clear form
 function clearForm() {
   document.querySelector("#placeName").value = "";
   document.querySelector("#placeCity").value = "";
@@ -123,64 +126,69 @@ function clearForm() {
   document.querySelector("#packageDays").value = "";
 }
 
-// functions to display pacages added by admin
-
-
+// listening click event on delete package and edit package
 document.body.addEventListener("click", function (e) {
   if (e.target.classList.contains("deleteButton")) {
-    const confirmation = confirm('are you sure ?')
+    const confirmation = confirm("are you sure ?");
     if (confirmation) deletePackage(e);
-    return
+    return;
   }
   if (e.target.classList.contains("editPackageBtn")) {
-    const confirmation = confirm('are you sure ?')
-    if (confirmation)  // edit goes here;
-      setForm(e);
-    return
+    const confirmation = confirm("are you sure ?");
+    if (confirmation) setForm(e);
+    return;
   }
 });
 
+// function to delete package
 function deletePackage(event) {
-
+  // getting targeted card
   const targetPackage = event.target.parentNode;
   const targetCity = targetPackage.children[2].textContent;
   const targetPlace = targetPackage.children[1].textContent;
   const targetCountry = targetPackage.children[3].textContent;
   const targetId = targetPackage.id;
+
+  // removing targeted package card
   document.getElementById(targetId).remove();
-  
 
-  const index = places.findIndex((dest)=>{
+  // finding index of deleted package
+  const index = places.findIndex((dest) => {
     return (
-          dest.placeCity === targetCity &&
-          dest.placeName === targetPlace &&
-          dest.placeCountry === targetCountry
-        );
-  })
+      dest.placeCity === targetCity &&
+      dest.placeName === targetPlace &&
+      dest.placeCountry === targetCountry
+    );
+  });
 
-  places.splice(index,1);
+  // deleting it from original array
+  places.splice(index, 1);
+  // updating in local storage
   localStorage.setItem("places", JSON.stringify(places));
 }
 
-const targetedCardObj = {}
-function setForm(event){
+const targetedCardObj = {};
+// function for setting form inputs while editing
+function setForm(event) {
   event.preventDefault();
+  // scrolling to top
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
-  console.log('kkkk');
+
+  // selecting the contents of targeted package card
   const targetPackage = event.target.parentNode;
   const targetCity = targetPackage.children[2].textContent;
   const targetPlace = targetPackage.children[1].textContent;
   const targetCountry = targetPackage.children[3].textContent;
   const targetHighL = targetPackage.children[4].textContent;
   const targetDesc = targetPackage.children[5].textContent;
-  const targetPrice = targetPackage.children[6].textContent.split('/')[0];
-  const targetDays = targetPackage.children[7].textContent;
-  const targetId = targetPackage.id;
+  const targetPrice = targetPackage.children[6].textContent.split("/")[0];
+  const targetDays = targetPackage.children[7].textContent.split(' ')[0];
 
-  targetedCardObj.targetPlace =targetPlace;
-  targetedCardObj.targetCity =targetCity;
-  
+  targetedCardObj.targetPlace = targetPlace;
+  targetedCardObj.targetCity = targetCity;
+
+  // setting selected values in the form inputs
   document.querySelector("#placeName").value = targetPlace;
   document.querySelector("#placeCity").value = targetCity;
   document.querySelector("#placeCountry").value = targetCountry;
@@ -188,24 +196,27 @@ function setForm(event){
   document.querySelector("#placeDescription").value = targetDesc;
   document.querySelector("#packagePrice").value = targetPrice;
   document.querySelector("#packageDays").value = targetDays;
-  adminFormBtn.textContent='Edit package'
-  
+
+  // changing buttons textContent
+  adminFormBtn.textContent = "Edit package";
 }
 
-adminFormBtn.addEventListener('click' , (e) =>{
-  if (e.target.textContent.toLowerCase() === 'edit package') editPackage(e);
-})
+// listnening click event on form btn;
+adminFormBtn.addEventListener("click", (e) => {
+  if (e.target.textContent.toLowerCase() === "edit package") editPackage(e);
+});
 
 function editPackage(event) {
   event.preventDefault();
-  console.log('editing....................');
-  const placeName = document.querySelector("#placeName").value
-  const placeCity = document.querySelector("#placeCity").value 
-  const placeCountry =  document.querySelector("#placeCountry").value
-  const placeHighlights = document.querySelector("#placeHighlights").value 
-  const placeDescription = document.querySelector("#placeDescription").value
-  const packagePrice = document.querySelector("#packagePrice").value
-  const packageDays =  document.querySelector("#packageDays").value
+
+  // getting updated input values
+  const placeName = document.querySelector("#placeName").value;
+  const placeCity = document.querySelector("#placeCity").value;
+  const placeCountry = document.querySelector("#placeCountry").value;
+  const placeHighlights = document.querySelector("#placeHighlights").value;
+  const placeDescription = document.querySelector("#placeDescription").value;
+  const packagePrice = document.querySelector("#packagePrice").value;
+  const packageDays = document.querySelector("#packageDays").value;
   const placeHighlightsArr = placeHighlights.toLowerCase().split(",");
 
   // validating user inputs
@@ -222,6 +233,7 @@ function editPackage(event) {
     return;
   }
 
+  // creating new package
   const package = {
     placeName: placeName,
     placeCity: placeCity,
@@ -231,25 +243,72 @@ function editPackage(event) {
     packagePrice: packagePrice,
     packageDays: packageDays,
   };
-  console.log(package);
 
   // adding package to the places array and storing it in localstorage
- 
-  const index = places.findIndex((dest)=>{
-    return dest.placeName === targetedCardObj.targetPlace && dest.placeCity === targetedCardObj.targetCity;
-  })
+  const index = places.findIndex((dest) => {
+    return (
+      dest.placeName === targetedCardObj.targetPlace &&
+      dest.placeCity === targetedCardObj.targetCity
+    );
+  });
   console.log(index);
 
-  if(index === -1){
-    return 
+  if (index === -1) {
+    return;
   }
-  places.splice(index,1,package);
-  console.log(places);
+  places.splice(index, 1, package);
   localStorage.setItem("places", JSON.stringify(places));
   alert("Package added Successfully !");
+  // clearing from
   clearForm();
-  adminFormBtn.textContent = 'Add Package'
-  adminPagePackages.innerHTML ='';
+  adminFormBtn.textContent = "Add Package";
+  // displaying
+  adminPagePackages.innerHTML = "";
   adminPageDisplay(places);
+}
 
+//----------------------------------------- user display and other functionallity
+const usersDiv = document.querySelector(".users");
+displayUsers(existedUsers);
+function displayUsers(users) {
+  usersDiv.innerHTML = users
+    .map(
+      (user, index) => `
+    <div class="userWrapper" id="userCard_${index}">
+    <h2>${user.name}</h2>
+    <h3>${user.email}</h3>
+    <button class="deleteUser">Delete User</button>
+    </div>
+    `
+    )
+    .join("");
+}
+
+// ------------------- delete user function
+document.body.addEventListener("click", (e) => {
+  if (e.target.classList.contains("deleteUser")) {
+    const confirmation = confirm("Are you sure to delete this user ?");
+    if (confirmation) {
+      deleteUser(e);
+    }
+    return;
+  }
+});
+
+function deleteUser(event) {
+  event.preventDefault();
+  const targetedUser = event.target.parentNode;
+  const targetName = targetedUser.children[0].textContent;
+  const targetEmail = targetedUser.children[1].textContent;
+
+  const index = existedUsers.findIndex( (user) => {
+    return user.name === targetName && user.email === targetEmail;
+  })
+
+  existedUsers.splice(index,1);
+  localStorage.setItem('registeredUser' , JSON.stringify(existedUsers));
+  alert('user deleted successfully')
+
+  usersDiv.innerHTML = '';
+  displayUsers(existedUsers);
 }

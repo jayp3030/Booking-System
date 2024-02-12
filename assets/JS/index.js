@@ -3,6 +3,11 @@ const allBookings = JSON.parse(localStorage.getItem("allBookings")) || []; // ge
 const email = localStorage.getItem("email");
 const packages = document.querySelector("#travelPackages"); // selecting div where we want to show all card
 
+// getting total pages
+const itemsPerPage = 5; // Number of items per page
+const totalItems = places.length; // Total number of items
+let currentPage = 1; // Initial current page
+
 const userBooking = getUserBooking(email) || [];
 // getting user booking details if exist in allBooking
 function getUserBooking(email) {
@@ -80,9 +85,9 @@ searchBar.addEventListener("input", (e) => {
         place.placeCity.toLowerCase().includes(userInput)
       );
     });
+    currentPage = 1;
     packages.innerHTML = "";
     displayItems(currentPage, itemsPerPage, searchedPackage);
-    // console.log(userInput);
   }, 500);
 });
 
@@ -103,6 +108,7 @@ sortBySelect.addEventListener("change", (e) => {
     return;
   }
   console.log(sortedPackages);
+  currentPage = 1;
   packages.innerHTML = "";
   displayItems(currentPage, itemsPerPage, sortedPackages);
 });
@@ -110,10 +116,13 @@ sortBySelect.addEventListener("change", (e) => {
 //------------------------------------------- price filter
 const minPriceInput = document.querySelector("#minPrice");
 const maxPriceInput = document.querySelector("#maxPrice");
-const priceFilterBtn = document.querySelector("#priceFilterBtn");
+// const priceFilterBtn = document.querySelector("#priceFilterBtn");
 const priceFilterRmvBtn = document.querySelector("#priceFilterRmvBtn");
 
-priceFilterBtn.addEventListener("click", handleFilter);
+// minPriceInput.addEventListener('input' , handleFilter)
+// priceFilterBtn.addEventListener("click", handleFilter);
+
+maxPriceInput.addEventListener('input' , handleFilter)
 priceFilterRmvBtn.addEventListener("click", removeFilter);
 
 function handleFilter() {
@@ -133,6 +142,7 @@ function removeFilter() {
   minPriceInput.value = "";
   maxPriceInput.value = "";
   packages.innerHTML = "";
+  currentPage = 1;
   displayItems(currentPage, itemsPerPage, places);
 }
 
@@ -154,6 +164,11 @@ function handleBooking(e) {
     return;
   }
   const numOfMember = prompt("Enter the number of member");
+  
+  if (numOfMember <= 0 || numOfMember === null || isNaN(numOfMember)) {
+    alert('Enter valid number of members')
+    numOfMember = prompt("Enter the number of member");
+  }
 
   const parent = e.target.parentNode;
 
@@ -162,10 +177,11 @@ function handleBooking(e) {
   const placeCountry = parent.children[3].textContent;
   const placeHighlights = parent.children[5].textContent;
   const placeDescription = parent.children[4].textContent;
-  const packagePrice = parent.children[6].textContent;
+  const packagePrice = parent.children[6].textContent.split('/')[0];
   const packageDays = parent.children[7].textContent;
   const placeHighlightsArr = placeHighlights.split(",");
 
+  // creating object of new booking
   const booking = {
     placeName: placeName,
     placeCity: placeCity,
@@ -177,8 +193,9 @@ function handleBooking(e) {
     members: numOfMember,
   };
 
-  console.log(userBooking.bookings);
+  // adding new booking to userbooking.
   userBooking.bookings.push(booking);
+  // updating the userbookings
   localStorage.setItem("userbooking", JSON.stringify(userBooking.bookings));
 
   const userWithBooking = {
@@ -190,15 +207,9 @@ function handleBooking(e) {
     (curr) => curr.email === localStorage.getItem("email")
   );
 
-  if (existedUserIndex === -1) {
-    console.log("not exist");
-    allBookings.push(userWithBooking);
-  } else {
-    console.log("exist");
-    console.log(allBookings[existedUserIndex].bookings);
-    allBookings[existedUserIndex].bookings = userBooking.bookings; // Update the existing user's bookings
-  }
-
+  // if user not exist then we create new entry for it. else we update its bookings array.
+  existedUserIndex === -1 ? allBookings.push(userWithBooking) : allBookings[existedUserIndex].bookings = userBooking.bookings
+  // updating the local storage
   localStorage.setItem("allBookings", JSON.stringify(allBookings));
   console.log(allBookings);
 }
@@ -236,10 +247,6 @@ function displayPackages(payload) {
 
 // --------------------------------------------- pagination
 
-// getting total pages
-const itemsPerPage = 5; // Number of items per page
-const totalItems = places.length; // Total number of items
-let currentPage = 1; // Initial current page
 const pages = getTotalPages(totalItems, itemsPerPage);
 
 function getTotalPages(totalItems, itemsPerPage) {
@@ -251,15 +258,16 @@ displayItems(currentPage, itemsPerPage, places);
 
 // dynamically create buttons as per requirments
 function createNavigationButtons(totalPages) {
+  if (totalItems <5) return;
   const navigationContainer = document.getElementById("navigationContainer");
   navigationContainer.innerHTML = ""; // Clear previous buttons
-
+  
   for (let i = 1; i <= totalPages; i++) {
     const button = document.createElement("button");
     button.textContent = i;
     // attaching event listner to each btn
-    button.addEventListener("click", () => {
-      navigateToPage(i);
+    button.addEventListener("click", (e) => {
+      navigateToPage(i , e);
     });
     navigationContainer.appendChild(button);
   }
@@ -267,6 +275,7 @@ function createNavigationButtons(totalPages) {
 
 // display items per page
 function displayItems(pageNumber, itemsPerPage, arrayToShow) {
+  // we will find start index and last index to slice only that items.
   const startIndex = (pageNumber - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   // it will show 0-4 , 5-9 indexes
@@ -276,13 +285,13 @@ function displayItems(pageNumber, itemsPerPage, arrayToShow) {
 }
 
 // Function to handle pagination navigation
-function navigateToPage(pageNumber) {
+function navigateToPage(pageNumber , e) {
   // Validate pageNumber
   if (pageNumber < 1 || pageNumber > pages) return;
 
   // Update current page
   currentPage = pageNumber;
-
+  e.target.classList.toggle()
   // Display items for the selected page
   displayItems(currentPage, itemsPerPage, places);
 }
