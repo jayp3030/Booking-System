@@ -30,24 +30,20 @@ adminLoginBtn.addEventListener("click", () => {
 // functions to display pacages added by admin
 adminPageDisplay(places);
 function adminPageDisplay(payload) {
-  adminPagePackages.innerHTML = payload
-    .map(
-      (place, index) => `
-      <div class="main-newPackage" id="package_${index}">
-      <img src="../images/goa.jpg">
-      <h2>${place.placeName}</h2>
-      <h3>${place.placeCity}</h3>
-      <h4>${place.placeCountry}</h4>
-      <p>${place.placeDescription}</p>
-      <p>${place.placeHighlights}</p>
-      <h3>${place.packagePrice}/person</h3>
-      <h4>${place.packageDays} days</h4>
-      <button class="deleteButton">Delete Package</button>
-      <button class="editPackageBtn">Edit Package</button>
-      </div>
-      `
-    )
-    .join("");
+  adminPagePackages.innerHTML = payload.map((place, index) => `
+    <div class="main-newPackage" id="package_${index}">
+        <img src="../images/goa.jpg">
+        <h2 class="place">${place.placeName}</h2>
+        <h3 class="city">${place.placeCity}</h3>
+        <h4 class="country">${place.placeCountry}</h4>
+        <p class="desc">${place.placeDescription}</p>
+        <p class="highlights">${place.placeHighlights}</p>
+        <h3 class="price">${place.packagePrice}/person</h3>
+        <h4 class="duration">${place.packageDays} days</h4>
+        <button class="deleteButton">Delete Package</button>
+        <button class="editPackageBtn">Edit Package</button>
+    </div>
+`).join('');
 }
 
 // selecting form button

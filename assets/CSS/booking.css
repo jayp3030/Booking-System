@@ -11,10 +11,10 @@
     margin: 15px auto 0px auto;
     width:30vw;
     
-    justify-content: center;
-    align-items: center;
+    
     border-radius: 8px;
     background-color: lightgray;
+    box-shadow: 5px 6px 26px 0px rgba(0,0,0,0.1);
     
 }
 .main-newPackage img{

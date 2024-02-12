@@ -16,6 +16,7 @@ nav{
     padding: .75rem 2rem;
     margin-bottom: 1rem;
     background-color: #365486;
+    box-shadow: 3px 16px 21px -6px rgba(0,0,0,0.2);
 }
 .right{
     display: flex;
@@ -38,19 +39,32 @@ nav{
     border-radius: 20px;
 }
 
-#loginBtn{
+#loginBtn,#adminLoginBtn,#adminLoginBtn{
     border-radius: 5px;
-    
-    color:#DCF2F1
+    background-color: #0F1035;
+    color:#DCF2F1;
+    padding: .45rem 2rem;
+    outline: none;
+    border: none;
+    cursor: pointer;
 
+
+}
+#loginBtn a,#adminLoginBtn a{
+    text-decoration: none;
+    color: #d0d0d0;
 }
 
 .filterWrapper{
     display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
+    gap:20px;
     align-items: center;
-    padding: 10px;
+    margin: 1rem 0;
+}
+.filterWrapper select{
+    padding: .25rem 1rem;
+    font-size: 1rem;
 }
 .priceFilterWrapper{
     display: flex;
@@ -86,36 +100,73 @@ nav{
 }
 
 .main-newPackage{
-    display: flex;
-    box-sizing: border-box;
-    flex-direction: column;
-    margin: 15px auto 0px auto;
-    width:30vw;
-    justify-content: center;
-    align-items: center;
+    margin: 15px auto;
+    width:40vw;
+    height:fit-content;
     border-radius: 8px;
     background-color: lightgray;
-    
+    padding: 1rem 1rem;
+    box-shadow: 5px 6px 26px 0px rgba(0,0,0,0.1);
 }
 .main-newPackage img{
     height:200px;
     width:100%;
-    border-radius: 8px;
+
 }
 .main-newPackage h2,h3,h4{
     text-transform: capitalize;
 }
 
-.main-newPackage .bookingBtn{
+.bookingBtn{
     border: none;
     outline:none;
     border-radius: 5px;
     padding:7px;
     background-color: #525E75;
     color:white;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    width: 30%;
+    margin: .5rem 0;
 }
-.main-newPackage p{
-   
+.place{
+   font-weight: bolder;
+   font-size: xx-large;
+}
+
+.city{
+    font-size: large;
+}
+.country{
+    font-size: medium;
+}
+.desc{
+    margin:0.5rem 0;
+    text-transform: capitalize;
+    font-size: medium;
+}
+
+.price{
+    margin:0.4rem 0;
+}
+.deleteButton, .editPackageBtn{
+    border: none;
+    outline:none;
+    border-radius: 5px;
+    padding:7px;
+    background-color: #525E75;
+    color:white;
+    width: 30%;
+    margin: .5rem 0;
+}
+
+#navigationContainer button{
+    padding:5px;
+    text-align: center;
+    font-size: medium;
+
+}
+
+#navigationContainer{
+
+    text-align: center;
+    margin: 20px 10px;
 }
