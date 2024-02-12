@@ -143,6 +143,12 @@ nav{
     text-transform: capitalize;
     font-size: medium;
 }
+.cost{
+    font-size: large;
+}
+.members{
+    font-size: large;
+}
 
 .price{
     margin:0.4rem 0;
