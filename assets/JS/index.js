@@ -3,6 +3,11 @@ const allBookings = JSON.parse(localStorage.getItem("allBookings")) || []; // ge
 const email = localStorage.getItem("email");
 const packages = document.querySelector("#travelPackages"); // selecting div where we want to show all card
 
+// getting total pages
+const itemsPerPage = 5; // Number of items per page
+const totalItems = places.length; // Total number of items
+let currentPage = 1; // Initial current page
+
 const userBooking = getUserBooking(email) || [];
 // getting user booking details if exist in allBooking
 function getUserBooking(email) {
@@ -80,9 +85,9 @@ searchBar.addEventListener("input", (e) => {
         place.placeCity.toLowerCase().includes(userInput)
       );
     });
+
     packages.innerHTML = "";
     displayItems(currentPage, itemsPerPage, searchedPackage);
-    // console.log(userInput);
   }, 500);
 });
 
@@ -166,6 +171,7 @@ function handleBooking(e) {
   const packageDays = parent.children[7].textContent;
   const placeHighlightsArr = placeHighlights.split(",");
 
+  // creating object of new booking
   const booking = {
     placeName: placeName,
     placeCity: placeCity,
@@ -177,8 +183,9 @@ function handleBooking(e) {
     members: numOfMember,
   };
 
-  console.log(userBooking.bookings);
+  // adding new booking to userbooking.
   userBooking.bookings.push(booking);
+  // updating the userbookings
   localStorage.setItem("userbooking", JSON.stringify(userBooking.bookings));
 
   const userWithBooking = {
@@ -190,15 +197,9 @@ function handleBooking(e) {
     (curr) => curr.email === localStorage.getItem("email")
   );
 
-  if (existedUserIndex === -1) {
-    console.log("not exist");
-    allBookings.push(userWithBooking);
-  } else {
-    console.log("exist");
-    console.log(allBookings[existedUserIndex].bookings);
-    allBookings[existedUserIndex].bookings = userBooking.bookings; // Update the existing user's bookings
-  }
-
+  // if user not exist then we create new entry for it. else we update its bookings array.
+  existedUserIndex === -1 ? allBookings.push(userWithBooking) : allBookings[existedUserIndex].bookings = userBooking.bookings
+  // updating the local storage
   localStorage.setItem("allBookings", JSON.stringify(allBookings));
   console.log(allBookings);
 }
@@ -236,10 +237,6 @@ function displayPackages(payload) {
 
 // --------------------------------------------- pagination
 
-// getting total pages
-const itemsPerPage = 5; // Number of items per page
-const totalItems = places.length; // Total number of items
-let currentPage = 1; // Initial current page
 const pages = getTotalPages(totalItems, itemsPerPage);
 
 function getTotalPages(totalItems, itemsPerPage) {
@@ -251,9 +248,10 @@ displayItems(currentPage, itemsPerPage, places);
 
 // dynamically create buttons as per requirments
 function createNavigationButtons(totalPages) {
+  if (totalItems <5) return;
   const navigationContainer = document.getElementById("navigationContainer");
   navigationContainer.innerHTML = ""; // Clear previous buttons
-
+  
   for (let i = 1; i <= totalPages; i++) {
     const button = document.createElement("button");
     button.textContent = i;
@@ -267,6 +265,7 @@ function createNavigationButtons(totalPages) {
 
 // display items per page
 function displayItems(pageNumber, itemsPerPage, arrayToShow) {
+  // we will find start index and last index to slice only that items.
   const startIndex = (pageNumber - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   // it will show 0-4 , 5-9 indexes

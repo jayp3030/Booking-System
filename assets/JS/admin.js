@@ -7,6 +7,13 @@ const adminPagePackages = document.querySelector(".adminPagePackages");
 const isAdminLoggeIn = localStorage.getItem("isAdminLoggedIn");
 const adminLoginBtn = document.querySelector("#adminLoginBtn");
 
+document.addEventListener("DOMContentLoaded", () => {
+  if (!isAdminLoggedIn) {
+    alert('you must login first');
+    location.href = '../html/login.html'
+  }
+});
+
 if (isAdminLoggeIn) {
   adminLoginBtn.textContent ="logout";
 }

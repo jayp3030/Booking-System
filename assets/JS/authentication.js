@@ -1,6 +1,10 @@
 // getting all the registered user
 const registeredUser = JSON.parse(localStorage.getItem("registeredUser")) || [];
 
+document.addEventListener('DOMContentLoaded' , ()=>{
+  localStorage.setItem('registeredUser' , JSON.stringify(registeredUser));
+})
+
 // registering user
 const registerForm = document.getElementById("registerForm");
 registerForm?.addEventListener("submit", (event) => {
@@ -14,8 +18,8 @@ registerForm?.addEventListener("submit", (event) => {
   const isExist = registeredUser.filter((curr) => {
     return curr.email === email;
   });
-
-  if (isExist) {
+  
+  if (isExist.length !== 0) {
     alert("User already registered please login..");
     location.href = "../html/login.html";
     return;

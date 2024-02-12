@@ -1,9 +1,6 @@
-document.addEventListener("DOMContentLoaded", () => {
-
-});
-
 const allBookings = JSON.parse(localStorage.getItem("allBookings")) || []; // getting all booking from local storage
-const email = localStorage.getItem("email");
+const email = localStorage.getItem("email");  // getting loggedIn users email
+
 // getting logged in user's bookings from allbooking to show in cart
 const userBooking = JSON.parse(localStorage.getItem('userbooking')) || []; 
 
@@ -59,12 +56,15 @@ function displayPackages(payload) {
 
 document.body.addEventListener("click", function (e) {
   if (e.target.classList.contains("deleteButton")) {
-    const confirmation = confirm('are you sure ?');
+    const confirmation = confirm('are you sure to delete it ?');
     if (confirmation) deletePackage(e);
     return;
   }
   if (e.target.classList.contains('editPackageBtn')) {
      // for edit here
+     const confirmation = confirm('are you sure to edit it ?');
+    if (confirmation) ;
+    return;
   }
 });
 
